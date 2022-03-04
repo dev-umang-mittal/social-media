@@ -24,8 +24,8 @@ const userRouter = require("./routes/userRoutes");
 app.use("/user", userRouter);
 
 // => Post Routes
-const userRouter = require("./routes/userRoutes");
-app.use("/user", userRouter);
+const postRouter = require("./routes/postRoutes");
+app.use("/post", postRouter);
 
 // =. Routes
 const userRouter = require("./routes/userRoutes");

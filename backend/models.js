@@ -4,6 +4,12 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema({
   username: {
     type: String,
+    minLength: [4, "Username is too short."],
+    maxLength: [15, "Username is too long."],
+    trim: true,
+  },
+  userhandle: {
+    type: String,
     requied: [true, "Username is required."],
     unique: true,
     trim: true,
@@ -23,6 +29,11 @@ const userSchema = mongoose.Schema({
   },
   image: {
     type: String,
+  },
+  bio: {
+    type: String,
+    default: "Doing something exciting...",
+    maxLength: [50, "Maximum word limit is 50."],
   },
 });
 const postSchema = mongoose.Schema({});
