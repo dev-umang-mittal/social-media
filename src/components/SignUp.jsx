@@ -1,39 +1,47 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Login() {
+export default function SignUp() {
   return (
     <>
       <div>
         <div className="container">
           <div className="content">
             <div className="content_rgt">
-              <div className="login_sec">
-                <h1>Log In</h1>
+              <div className="register_sec">
+                <h1>Create An Account</h1>
                 <ul>
                   <li>
-                    <span>Email-ID</span>
-                    <input type="text" placeholder="Enter your email" />
+                    <span>Username</span>
+                    <input type="text" placeholder="Enter your username" />
                   </li>
                   <li>
                     <span>Password</span>
                     <input type="text" placeholder="Enter your password" />
                   </li>
                   <li>
-                    <input type="checkbox" />
-                    Remember Me
+                    <span>Email</span>
+                    <input type="text" placeholder="Enter your email" />
                   </li>
                   <li>
-                    <input type="submit" defaultValue="Log In" />
-                    <Link to={"/forgot"}>
-                      <a href>Forgot Password</a>
-                    </Link>
+                    <span>First Name</span>
+                    <input type="text" placeholder="Enter your first name" />
+                  </li>
+                  <li>
+                    <span>Last Name</span>
+                    <input type="text" placeholder="Enter your last name" />
+                  </li>
+                  <li>
+                    <input type="checkbox" />I agree to Term &amp; Conditions
+                  </li>
+                  <li>
+                    <input type="submit" defaultValue="Register" />
                   </li>
                 </ul>
                 <div className="addtnal_acnt">
-                  I do not have any account yet.
-                  <Link to={"/signup"}>
-                    <a>Create My Account Now !</a>
+                  I already have an account.
+                  <Link to={"/login"}>
+                    <a href>Login My Account !</a>
                   </Link>
                 </div>
               </div>

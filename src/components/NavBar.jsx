@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function NavBar() {
   return (
@@ -79,9 +80,11 @@ export default function NavBar() {
       <div className="header">
         <div className="header_lft">
           <div className="logo">
-            <a href="#">
-              <img src={require("../assets/images/logo.png")} />
-            </a>
+            <Link to={"/"}>
+              <a href="#">
+                <img src={require("../assets/images/logo.png")} />
+              </a>
+            </Link>
           </div>
           <div className="navigatn">
             <ul>
