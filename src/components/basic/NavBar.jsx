@@ -22,7 +22,7 @@ export default function NavBar() {
             </a>
             <div className="pro_info pull-right">
               <div className="pro_icn">
-                <img src={require("../assets/images/pic_small.png")} />
+                <img src={require("../../assets/images/pic_small.png")} />
               </div>
               <div className="pro_txt">
                 Me<b className="caret"></b>
@@ -82,7 +82,7 @@ export default function NavBar() {
           <div className="logo">
             <Link to={"/"}>
               <a href="#">
-                <img src={require("../assets/images/logo.png")} />
+                <img src={require("../../assets/images/logo.png")} />
               </a>
             </Link>
           </div>
@@ -110,7 +110,7 @@ export default function NavBar() {
         </div>
         <div className="header_rgt">
           <div className="flag_div">
-            <img src={require("../assets/images/flag.png")} />
+            <img src={require("../../assets/images/flag.png")} />
           </div>
           <input type="text" placeholder="Search" className="txt_box" />
           <div className="msg_box">
@@ -120,7 +120,7 @@ export default function NavBar() {
           </div>
           <div className="info_div">
             <div className="image_div">
-              <img src={require("../assets/images/pic.png")} />
+              <img src={require("../../assets/images/pic.png")} />
             </div>
             <div className="info_div1">Me</div>
           </div>
