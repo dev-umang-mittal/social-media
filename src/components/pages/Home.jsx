@@ -1,4 +1,3 @@
-import { render } from "express/lib/response";
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import HomePosts from "../postcomponents/HomePosts";
@@ -139,9 +138,10 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <Routes>
+          <UserTimeline></UserTimeline>
+          {/* <Routes>
             <Route path="/:id" element={<UserTimeline />} />
-          </Routes>
+          </Routes> */}
         </div>
         <div className="clear"></div>
       </div>
