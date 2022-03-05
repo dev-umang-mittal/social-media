@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function NavBar() {
+  const { user } = useContext(AuthContext);
   return (
     <>
       <div className="navbar navbar-inverse navbar-fixed-top">
@@ -89,21 +91,35 @@ export default function NavBar() {
           <div className="navigatn">
             <ul>
               <li>
-                <a href="#" className="active">
-                  Home
-                </a>
+                <Link to={"/"}>
+                  <div>Home</div>
+                </Link>
               </li>
+              {!user && (
+                <li>
+                  <Link to={"/signup"}>
+                    <div>Signup</div>
+                  </Link>
+                </li>
+              )}
+              {!user && (
+                <li>
+                  <Link to={"/login"}>
+                    <div>Login</div>
+                  </Link>
+                </li>
+              )}
+              {!user && (
+                <li>
+                  <Link to={"/signup"}>
+                    <div>Signup</div>
+                  </Link>
+                </li>
+              )}
               <li>
-                <a href="#"> E-Coupons </a>
-              </li>
-              <li>
-                <a href="#">E-Brands </a>
-              </li>
-              <li>
-                <a href="#"> Resuse Market </a>
-              </li>
-              <li>
-                <a href="#"> Lost and Found</a>
+                <Link to={"/signup"}>
+                  <div>Signup</div>
+                </Link>
               </li>
             </ul>
           </div>
@@ -119,10 +135,12 @@ export default function NavBar() {
             </a>
           </div>
           <div className="info_div">
-            <div className="image_div">
-              <img src={require("../../assets/images/pic.png")} />
-            </div>
-            <div className="info_div1">Me</div>
+            <Link to={user ? "/user/id" : "/login"}>
+              <div className="image_div">
+                <img src={require("../../assets/images/pic.png")} />
+              </div>
+              <div className="info_div1">Me</div>
+            </Link>
           </div>
         </div>
       </div>

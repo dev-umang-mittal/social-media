@@ -7,7 +7,7 @@ import NavBar from "./components/basic/NavBar";
 import SignUp from "./components/pages/SignUp";
 import Forgot from "./components/pages/Forgot";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import AuthState from "./context/AuthContext";
+import { AuthState } from "./context/AuthContext";
 import { Navigate } from "react-router-dom";
 export default class App extends Component {
   render() {

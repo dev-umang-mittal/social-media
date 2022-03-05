@@ -3,7 +3,8 @@ import React, { useState } from "react";
 const AuthContext = React.createContext();
 
 const AuthState = (props) => {
-  const [user, setUser] = useState({ username: "Umang" });
+  const [user, setUser] = useState();
+  // const [user, setUser] = useState({ username: "umang" });
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {props.children}
@@ -11,4 +12,4 @@ const AuthState = (props) => {
   );
 };
 
-export default AuthState;
+export { AuthContext, AuthState };

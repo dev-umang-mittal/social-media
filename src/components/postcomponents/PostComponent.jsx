@@ -7,7 +7,7 @@ export default function PostComponent() {
       <div className="contnt_2">
         <div className="div_a">
           <div className="div_title">
-            <Link to={"/post/"}>
+            <Link to={"/post/id"}>
               User Interface PSD Source files Web Designing for web
             </Link>
           </div>
@@ -53,7 +53,7 @@ export default function PostComponent() {
                   </a>
                 </li>
                 <li>
-                  <Link to={"/post/"}>
+                  <Link to={"/post/id"}>
                     <span className="btn_icon">
                       <img
                         src={require("../../assets/images/icon_003.png")}
@@ -64,7 +64,7 @@ export default function PostComponent() {
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/post/"}>
+                  <Link to={"/post/id"}>
                     <span className="btn_icon">
                       <img
                         src={require("../../assets/images/icon_004.png")}
