@@ -100,6 +100,9 @@ const postSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+postSchema.index({ title: "text", tags: "text" });
+userSchema.index({ username: "text", name: "text" });
+
 const users = mongoose.model("users", userSchema);
 const posts = mongoose.model("posts", postSchema);
 const comments = mongoose.model("comments", commentSchema);
