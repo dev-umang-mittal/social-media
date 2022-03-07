@@ -87,6 +87,7 @@ const postSchema = mongoose.Schema(
     image: {
       type: String,
     },
+    tags: [String],
     likes: {
       type: Number,
       default: 0,
