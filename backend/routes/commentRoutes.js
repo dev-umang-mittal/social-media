@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-// Create a post
+// Create a comment
 router.post("/create", async (req, res, next) => {});
 
-// Like a post [Authenticated]
-router.get("/like", async (req, res, next) => {});
-
-// Update post [Authnenticated]
+// Update comment details [Authnenticated]
 router.patch("/update", async (req, res, next) => {});
 
 // Delete a user [Authnenticated]

@@ -89,4 +89,4 @@ const users = mongoose.model("users", userSchema);
 const posts = mongoose.model("posts", postSchema);
 const comments = mongoose.model("comments", commentSchema);
 
-export { users, posts };
+export { users, posts, comments };
