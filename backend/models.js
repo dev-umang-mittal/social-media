@@ -61,11 +61,14 @@ const personDetails = mongoose.Schema(
 
 const commentSchema = mongoose.Schema(
   {
-    commenterDetails: personDetails,
+    commenter: personDetails,
     comment: {
       type: String,
       maxLength: [50, "Comment is too long"],
       trim: true,
+    },
+    commentedOnId: {
+      type: mongoose.Types.ObjectId,
     },
   },
   { timestamps: true }
