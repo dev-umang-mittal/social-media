@@ -2,7 +2,6 @@
 require("dotenv").config();
 
 // Initialization
-import { users, posts, comments } from "./models";
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
