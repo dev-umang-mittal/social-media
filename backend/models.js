@@ -52,10 +52,19 @@ const personDetails = mongoose.Schema({
   id: {
     type : mongoose.Types.ObjectId
   }
-},{_id:false})
+},{_id:false});
+
+const commentSchema = mongoose.Schema({
+  commenterDetails : personDetails,
+  comment : {
+    type: String,
+    maxLength: [50, "Comment is too long"],
+    trim: true
+  }
+},{timestamps: true})
 
 const postSchema = mongoose.Schema({
-  authorDetaile : personDetails,
+  authorDetails : personDetails,
   title : {
     type: String,
     required: [true, "Title is required."],
@@ -65,11 +74,19 @@ const postSchema = mongoose.Schema({
   }, 
   image : {
     type: String,
+  },
+  likes : {
+    type: Number,
+    default: 0
+  },
+  comments : {
+    type: Number,
+    default: 0
   }
-})
+},{timestamps: true})
 
 const users = mongoose.model("users", userSchema);
-const posts = mongoose.model("posts", userSchema);
-const userModel = mongoose.model("users", userSchema);
+const posts = mongoose.model("posts", postSchema);
+const comments = mongoose.model("comments", commentSchema);
 
 export { users, posts };
