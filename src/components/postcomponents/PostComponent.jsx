@@ -15,10 +15,12 @@ export default function PostComponent() {
             <div className="btm_arc">Cats</div>
           </div>
           <div className="div_top">
-            <div className="div_top_lft">
-              <img src={require("../../assets/images/img_6.png")} />
-              Steave Waugh
-            </div>
+            <Link to={"/user/id"}>
+              <div className="div_top_lft">
+                <img src={require("../../assets/images/img_6.png")} />
+                Steave Waugh
+              </div>
+            </Link>
             <div className="div_top_rgt">
               <span className="span_date">02 Jan 2014</span>
               <span className="span_time">11:15am</span>

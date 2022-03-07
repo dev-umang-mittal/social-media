@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import FeaturedPost from "../postcomponents/FeaturedPost";
-
+//TODO : Select Category from list
+//TODO : Got to post component when clicked the featured posts
 export default function SideBar() {
   return (
     <div className="content_rgt">
@@ -11,7 +13,7 @@ export default function SideBar() {
         <span className="btn_sep">
           <img src={require("../../assets/images/btn_sep.png")} alt="sep" />
         </span>
-        <a>Upload Post</a>
+        <Link to={"/create"}>Upload Post</Link>
       </div>
       <div className="rght_btn">
         <span className="rght_btn_icon">

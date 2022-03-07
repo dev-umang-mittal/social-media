@@ -109,10 +109,10 @@ export default function NavBar() {
                   </Link>
                 </li>
               )}
-              {!user && (
+              {user && (
                 <li>
-                  <Link to={"/signup"}>
-                    <div>Signup</div>
+                  <Link to={"/user/id"}>
+                    <div>Dashboard</div>
                   </Link>
                 </li>
               )}

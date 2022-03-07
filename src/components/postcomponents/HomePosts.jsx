@@ -24,15 +24,7 @@ export default function HomePosts() {
                 <li>
                   <a>
                     <span className="list_img">
-                      <img src="images/img_1.png" />
-                    </span>
-                    Latest First
-                  </a>
-                </li>
-                <li>
-                  <a>
-                    <span className="list_img">
-                      <img src="images/img_2.png" />
+                      <img src={require("../../assets/images/img_2.png")} />
                     </span>
                     Oldest First
                   </a>
@@ -40,7 +32,7 @@ export default function HomePosts() {
                 <li>
                   <a>
                     <span className="list_img">
-                      <img src="images/img_3.png" />
+                      <img src={require("../../assets/images/img_3.png")} />
                     </span>
                     Most Pet
                   </a>
@@ -48,7 +40,7 @@ export default function HomePosts() {
                 <li>
                   <a>
                     <span className="list_img">
-                      <img src="images/img_4.png" />
+                      <img src={require("../../assets/images/img_4.png")} />
                     </span>
                     Most Clicks
                   </a>
@@ -56,7 +48,7 @@ export default function HomePosts() {
                 <li>
                   <a>
                     <span className="list_img">
-                      <img src="images/img_5.png" />
+                      <img src={require("../../assets/images/img_5.png")} />
                     </span>
                     Most Commented
                   </a>
