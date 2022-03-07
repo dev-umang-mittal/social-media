@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 //TODO use useRef to update tag value when clicked.
 // Add title and image useRef.
 export default function CreatePost() {
   const [imgSrc, setImgSrc] = useState();
+  const title = useRef();
+  const tag = useRef();
 
   function fileChanged(e) {
     // Assuming only image
@@ -27,6 +29,7 @@ export default function CreatePost() {
                   maxLength={120}
                   placeholder="Enter the title"
                   className="cmnt_bx"
+                  ref={title}
                 />
               </div>
             </li>
@@ -50,6 +53,7 @@ export default function CreatePost() {
                   maxLength={10}
                   placeholder="Cat, Dog, ..."
                   className="cmnt_bx"
+                  ref={tag}
                 />
                 <ul>
                   <h4 className="tag_search_li">hello</h4>

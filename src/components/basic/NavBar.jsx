@@ -83,9 +83,7 @@ export default function NavBar() {
         <div className="header_lft">
           <div className="logo">
             <Link to={"/"}>
-              <a href="#">
-                <img src={require("../../assets/images/logo.png")} />
-              </a>
+              <img src={require("../../assets/images/logo.png")} />
             </Link>
           </div>
           <div className="navigatn">
@@ -129,11 +127,6 @@ export default function NavBar() {
             <img src={require("../../assets/images/flag.png")} />
           </div>
           <input type="text" placeholder="Search" className="txt_box" />
-          <div className="msg_box">
-            <a href="#">
-              <span className="msg_count">100</span>
-            </a>
-          </div>
           <div className="info_div">
             <Link to={user ? "/user/id" : "/login"}>
               <div className="image_div">

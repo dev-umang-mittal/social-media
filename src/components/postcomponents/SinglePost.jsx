@@ -1,6 +1,10 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 export default function SinglePost() {
+  let { id } = useParams();
+  //TODO: use the id to fetch a certain blog.
+
   return (
     <>
       <div className="content_lft">
