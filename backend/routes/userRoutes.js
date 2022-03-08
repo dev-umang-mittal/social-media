@@ -2,6 +2,16 @@ import { users } from "../models.js";
 import express from "express";
 const router = express.Router();
 
+// Get a user details
+router.get("/:id", async (req, res, next) => {
+  try {
+    const response = await users.findById(req.params.id);
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
 // Signup a user
 router.post("/create", async (req, res, next) => {
   const user = new users({
