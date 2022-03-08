@@ -18,6 +18,7 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
+// Get a post details
 router.get("/:id", async (req, res, next) => {
   try {
     const response = await posts.findById(req.params.id);

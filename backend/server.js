@@ -29,7 +29,20 @@ app.use("/post", postRouter);
 
 // => Comment Routes
 import commentRoutes from "./routes/commentRoutes.js";
+import { posts } from "./models.js";
 app.use("/comment", commentRoutes);
+
+// Search blogs
+app.get("/search/:term", async (req, res, next) => {
+  try {
+    const response = await posts.find({
+      $text: { $search: req.params.term },
+    });
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
 
 app.use(errorHandler);
 
