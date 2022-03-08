@@ -1,13 +1,13 @@
 // Pulling in ENVIRONMENT variables
-require("dotenv").config();
+import "dotenv/config";
 
 // Initialization
-const express = require("express");
-const mongoose = require("mongoose");
+import express from "express";
+import mongoose from "mongoose";
+import errorHandler from "./errorHandler.js";
 const app = express();
-// app.use(express.urlencoded({extended:true}));
+// app.use(express.urlencoded({ extended: true }));
 // app.use(express.json());
-const errorHandler = require("./errorHandler");
 mongoose.connect(process.env.DATABASE_URL);
 const db = mongoose.connection;
 
@@ -20,15 +20,15 @@ db.once("open", () => {
 });
 
 // => User Routes
-const userRouter = require("./routes/userRoutes");
+import userRouter from "./routes/userRoutes.js";
 app.use("/user", userRouter);
 
 // => Post Routes
-const postRouter = require("./routes/postRoutes");
+import postRouter from "./routes/postRoutes.js";
 app.use("/post", postRouter);
 
 // => Comment Routes
-const commentRoutes = require("./routes/commentRoutes");
+import commentRoutes from "./routes/commentRoutes.js";
 app.use("/comment", commentRoutes);
 
 app.use(errorHandler);

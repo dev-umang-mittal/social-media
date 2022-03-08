@@ -17,7 +17,7 @@ const handleDuplicateKeyError = (err, res) => {
   res.status(code).send({ messages: error, fields: field });
 };
 
-module.exports = function(err, req, res, next) {
+export default function errorHandler(err, req, res, next) {
   try {
     if (err.name === "ValidationError")
       return (err = handleValidationError(err, res));
@@ -26,4 +26,4 @@ module.exports = function(err, req, res, next) {
   } catch (err) {
     res.status(500).send("An unknown error occurred.");
   }
-};
+}

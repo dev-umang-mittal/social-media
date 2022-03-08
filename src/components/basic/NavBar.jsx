@@ -35,23 +35,17 @@ export default function NavBar() {
                 aria-labelledby="dLabel"
               >
                 <li>
-                  <a tabIndex="-1" href="#">
-                    My Profile
-                  </a>
+                  <a tabIndex="-1">My Profile</a>
                 </li>
                 <li>
-                  <a tabIndex="-1" href="#">
-                    Message Box
-                  </a>
+                  <a tabIndex="-1">Message Box</a>
                 </li>
                 <li>
-                  <a tabIndex="-1" href="#">
-                    Change Language
-                  </a>
+                  <a tabIndex="-1">Change Language</a>
                 </li>
                 <li className="divider"></li>
                 <li>
-                  <a tabIndex="-1" href="#">
+                  <a tabIndex="-1">
                     <input type="text" placeholder="search" />
                   </a>
                 </li>

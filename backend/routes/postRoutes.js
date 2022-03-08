@@ -1,5 +1,5 @@
-import { posts } from "../models";
-const express = require("express");
+import { posts } from "../models.js";
+import express from "express";
 const router = express.Router();
 
 // Create a post
@@ -54,4 +54,4 @@ router.delete("/delete/:id", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

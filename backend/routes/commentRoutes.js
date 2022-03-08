@@ -1,5 +1,5 @@
-import { comments } from "../models";
-const express = require("express");
+import { comments } from "../models.js";
+import express from "express";
 const router = express.Router();
 
 // Create a comment
@@ -39,4 +39,4 @@ router.delete("/delete/:id", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;

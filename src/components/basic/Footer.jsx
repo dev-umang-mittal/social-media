@@ -8,28 +8,28 @@ export default function Footer() {
           Copyright © Pet-Socail 2014 All Rights Reserved
         </div>
         <div className="footer_div2">
-          <a href="#">Privacy Policy </a>| <a href="#"> Terms & Conditions</a>
+          <a>Privacy Policy </a>| <a> Terms & Conditions</a>
         </div>
       </div>
       <div className="footr_rgt">
         <ul>
           <li>
-            <a href="#">
+            <a>
               <img src={require("../../assets/images/social_1.png")} />
             </a>
           </li>
           <li>
-            <a href="#">
+            <a>
               <img src={require("../../assets/images/social_2.png")} />
             </a>
           </li>
           <li>
-            <a href="#">
+            <a>
               <img src={require("../../assets/images/social_3.png")} />
             </a>
           </li>
           <li>
-            <a href="#">
+            <a>
               <img src={require("../../assets/images/social_4.png")} />
             </a>
           </li>

@@ -1,5 +1,5 @@
-import { users } from "../models";
-const express = require("express");
+import { users } from "../models.js";
+import express from "express";
 const router = express.Router();
 
 // Signup a user
@@ -57,4 +57,4 @@ router.delete("/delete/:id", async (req, res, next) => {
   }
 });
 
-module.exports = router;
+export default router;
