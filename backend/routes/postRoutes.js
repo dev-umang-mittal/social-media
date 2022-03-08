@@ -18,6 +18,15 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
+router.get("/:id", async (req, res, next) => {
+  try {
+    const response = await posts.findById(req.params.id);
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
 // Like a post [Authenticated]
 router.get("/like/:id", async (req, res, next) => {
   try {
