@@ -348,6 +348,15 @@
 							"request": {
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"commentedOnId\" : \"id\",\n    \"comment\" : \"This is a sample comment\",\n    \"commenter\" : {\n        \"username\": \"UmangMi\",\n        \"name\": \"Umang Mittal\",\n        \"id\" : \"id\",\n        \"image\" : \"image.png\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "127.0.0.1:8080/comment/create",
 									"host": [
