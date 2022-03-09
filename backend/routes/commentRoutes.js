@@ -31,6 +31,8 @@ router.get("/blog/:id", async (req, res, next) => {
 // Delete a user [Authnenticated]
 router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
+    const comment = await comments.findById(req.params.id);
+    if (comment.commenter.id !== req.user.sub) res.sendStatus(403);
     const response = await comments.deleteOne({
       _id: req.params.id,
     });

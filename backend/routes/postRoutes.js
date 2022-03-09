@@ -45,6 +45,8 @@ router.get("/like/:id", authorizeUser, async (req, res, next) => {
 // Update post [Authnenticated]
 router.patch("/update/:id", authorizeUser, async (req, res, next) => {
   try {
+    const post = await posts.findById(req.params.id);
+    if (post?.authorDetails?._id !== req.user.sub) res.sendStatus(403);
     const response = await posts.findOneAndUpdate(
       { _id: req.params.id },
       req.body
@@ -58,6 +60,8 @@ router.patch("/update/:id", authorizeUser, async (req, res, next) => {
 // Delete a user [Authnenticated]
 router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
+    const post = await posts.findById(req.params.id);
+    if (post?.authorDetails?._id !== req.user.sub) res.sendStatus(403);
     const response = await posts.deleteOne({ _id: req.params.id });
     res.status(200).json(response);
   } catch (e) {

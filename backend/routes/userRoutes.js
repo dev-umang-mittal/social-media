@@ -51,6 +51,8 @@ router.post("/login", async (req, res, next) => {
 // Update user details [Authnenticated]
 router.patch("/update/:id", authorizeUser, async (req, res, next) => {
   try {
+    const user = await users.findById(req.params.id);
+    if (user?._id !== req.user.sub) res.sendStatus(403);
     const response = await users.findOneAndUpdate(
       { _id: req.params.id },
       req.body
@@ -64,6 +66,8 @@ router.patch("/update/:id", authorizeUser, async (req, res, next) => {
 // Delete a user [Authnenticated]
 router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
+    const user = await users.findById(req.params.id);
+    if (user?._id !== req.user.sub) res.sendStatus(403);
     const response = await users.findOneAndDelete({ _id: req.params.id });
     res.json(response);
   } catch (e) {
