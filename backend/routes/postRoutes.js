@@ -1,9 +1,10 @@
 import { posts } from "../models.js";
 import express from "express";
+import { authorizeUser } from "../server.js";
 const router = express.Router();
 
-// Create a post
-router.post("/create", async (req, res, next) => {
+// Create a post [Authenticated]
+router.post("/create", authorizeUser, async (req, res, next) => {
   const post = new posts({
     title: req.body.title,
     image: req.body.image,
@@ -29,7 +30,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Like a post [Authenticated]
-router.get("/like/:id", async (req, res, next) => {
+router.get("/like/:id", authorizeUser, async (req, res, next) => {
   try {
     const response = await posts.findOneAndUpdate(
       { _id: req.params.id },
@@ -42,7 +43,7 @@ router.get("/like/:id", async (req, res, next) => {
 });
 
 // Update post [Authnenticated]
-router.patch("/update/:id", async (req, res, next) => {
+router.patch("/update/:id", authorizeUser, async (req, res, next) => {
   try {
     const response = await posts.findOneAndUpdate(
       { _id: req.params.id },
@@ -55,7 +56,7 @@ router.patch("/update/:id", async (req, res, next) => {
 });
 
 // Delete a user [Authnenticated]
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
     const response = await posts.deleteOne({ _id: req.params.id });
     res.status(200).json(response);

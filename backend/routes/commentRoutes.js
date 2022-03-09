@@ -1,9 +1,10 @@
 import { comments } from "../models.js";
 import express from "express";
+import { authorizeUser } from "../server.js";
 const router = express.Router();
 
 // Create a comment
-router.post("/create", async (req, res, next) => {
+router.post("/create", authorizeUser, async (req, res, next) => {
   const comment = new comments({
     commentedOnId: req.body.commentedOnId,
     comment: req.body.comment,
@@ -28,7 +29,7 @@ router.get("/blog/:id", async (req, res, next) => {
 });
 
 // Delete a user [Authnenticated]
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
     const response = await comments.deleteOne({
       _id: req.params.id,
