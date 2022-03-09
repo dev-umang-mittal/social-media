@@ -1,5 +1,7 @@
 import { users } from "../models.js";
 import express from "express";
+import jwt from "jsonwebtoken";
+import { authorizeUser } from "../server.js";
 const router = express.Router();
 
 // Get a user details
@@ -14,7 +16,6 @@ router.get("/:id", async (req, res, next) => {
 
 // Signup a user
 router.post("/create", async (req, res, next) => {
-  console.log(req.body);
   const user = new users({
     name: req.body.name,
     username: req.body.username,
@@ -24,7 +25,11 @@ router.post("/create", async (req, res, next) => {
   user.image = `https://avatars.dicebear.com/api/adventurer-neutral/${user._id}.svg`;
   try {
     const response = await user.save();
-    res.status(201).json(response);
+    const accessToken = jwt.sign(
+      { sub: response._id, name: response.username },
+      process.env.JWT_SECRET
+    );
+    res.status(201).json({ accessToken, response });
   } catch (e) {
     next(e);
   }
@@ -44,7 +49,7 @@ router.post("/login", async (req, res, next) => {
 });
 
 // Update user details [Authnenticated]
-router.patch("/update/:id", async (req, res, next) => {
+router.patch("/update/:id", authorizeUser, async (req, res, next) => {
   try {
     const response = await users.findOneAndUpdate(
       { _id: req.params.id },
@@ -57,7 +62,7 @@ router.patch("/update/:id", async (req, res, next) => {
 });
 
 // Delete a user [Authnenticated]
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
     const response = await users.findOneAndDelete({ _id: req.params.id });
     res.json(response);

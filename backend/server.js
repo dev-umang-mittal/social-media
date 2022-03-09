@@ -5,6 +5,7 @@ import "dotenv/config";
 import express from "express";
 import mongoose from "mongoose";
 import errorHandler from "./errorHandler.js";
+import jwt from "jsonwebtoken";
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,6 +19,19 @@ db.on("error", (error) => {
 db.once("open", () => {
   console.log("Connected to database.");
 });
+
+//Authorization Middleware
+export function authorizeUser(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader?.split(" ")[1];
+  if (!token) res.sendStatus(401);
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
 
 // => User Routes
 import userRouter from "./routes/userRoutes.js";
