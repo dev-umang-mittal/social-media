@@ -14,6 +14,7 @@ router.get("/:id", async (req, res, next) => {
 
 // Signup a user
 router.post("/create", async (req, res, next) => {
+  console.log(req.body);
   const user = new users({
     name: req.body.name,
     username: req.body.username,
@@ -22,9 +23,7 @@ router.post("/create", async (req, res, next) => {
   });
   user.image = `https://avatars.dicebear.com/api/adventurer-neutral/${user._id}.svg`;
   try {
-    const response = await user.save((err, obj) => {
-      console.log(obj);
-    });
+    const response = await user.save();
     res.status(201).json(response);
   } catch (e) {
     next(e);

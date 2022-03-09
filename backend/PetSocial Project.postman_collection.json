@@ -17,7 +17,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8080/user/id",
+									"raw": "http://127.0.0.1:8080/user/6228568b321b16a01bd971b2",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -28,7 +28,7 @@
 									"port": "8080",
 									"path": [
 										"user",
-										"id"
+										"6228568b321b16a01bd971b2"
 									]
 								}
 							},
@@ -78,7 +78,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"email@email.com\",\n    \"password\" : \"password\"\n}",
+									"raw": "{\n    \"email\": \"username@email.com\",\n    \"password\" : \"password\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -110,7 +110,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"username\" : \"UmangMi\"\n}",
+									"raw": "{\n    \"bio\" : \"Doing something more exciting.\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -118,7 +118,7 @@
 									}
 								},
 								"url": {
-									"raw": "127.0.0.1:8080/user/update/id",
+									"raw": "127.0.0.1:8080/user/update/6228568b321b16a01bd971b2",
 									"host": [
 										"127",
 										"0",
@@ -129,7 +129,7 @@
 									"path": [
 										"user",
 										"update",
-										"id"
+										"6228568b321b16a01bd971b2"
 									]
 								}
 							},
@@ -141,7 +141,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "127.0.0.1:8080/user/delete/6218bbd735054165013ac8be",
+									"raw": "127.0.0.1:8080/user/delete/6228568b321b16a01bd971b2",
 									"host": [
 										"127",
 										"0",
@@ -152,7 +152,7 @@
 									"path": [
 										"user",
 										"delete",
-										"6218bbd735054165013ac8be"
+										"6228568b321b16a01bd971b2"
 									]
 								}
 							},
@@ -174,7 +174,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "127.0.0.1:8080/post/id",
+									"raw": "127.0.0.1:8080/post/622857a8321b16a01bd971ba",
 									"host": [
 										"127",
 										"0",
@@ -184,7 +184,7 @@
 									"port": "8080",
 									"path": [
 										"post",
-										"id"
+										"622857a8321b16a01bd971ba"
 									]
 								}
 							},
@@ -202,7 +202,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"title\" : \"This is a title\",\n    \"image\" : \"image.png\",\n    \"authorDetails\" : {\n        \"username\": \"UmangMi\",\n        \"name\": \"Umang Mittal\",\n        \"id\" : \"id\",\n        \"image\" : \"image.png\"\n    },\n    \"tags\" : [\"first\", \"post\"]\n}",
+									"raw": "{\n    \"title\" : \"This is a title\",\n    \"image\" : \"image.png\",\n    \"authorDetails\" : {\n        \"username\": \"UmangMi\",\n        \"name\": \"Umang Mittal\",\n        \"id\" : \"6228568b321b16a01bd971b2\",\n        \"image\" : \"image.png\"\n    },\n    \"tags\" : [\"first\", \"post\"]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -232,7 +232,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "127.0.0.1:8080/post/like/id",
+									"raw": "127.0.0.1:8080/post/like/622857a8321b16a01bd971ba",
 									"host": [
 										"127",
 										"0",
@@ -243,7 +243,7 @@
 									"path": [
 										"post",
 										"like",
-										"id"
+										"622857a8321b16a01bd971ba"
 									]
 								}
 							},
@@ -264,7 +264,7 @@
 									}
 								},
 								"url": {
-									"raw": "127.0.0.1:8080/post/update/id",
+									"raw": "127.0.0.1:8080/post/update/622857a8321b16a01bd971ba",
 									"host": [
 										"127",
 										"0",
@@ -275,7 +275,7 @@
 									"path": [
 										"post",
 										"update",
-										"id"
+										"622857a8321b16a01bd971ba"
 									]
 								}
 							},
@@ -287,7 +287,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8080/post/delete/621f7f78d5b5a3f4070a0347",
+									"raw": "http://127.0.0.1:8080/post/delete/622857a8321b16a01bd971ba",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -299,7 +299,7 @@
 									"path": [
 										"post",
 										"delete",
-										"621f7f78d5b5a3f4070a0347"
+										"622857a8321b16a01bd971ba"
 									]
 								}
 							},
@@ -321,7 +321,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "127.0.0.1:8080/comment/blog/id",
+									"raw": "127.0.0.1:8080/comment/blog/622857a8321b16a01bd971ba",
 									"host": [
 										"127",
 										"0",
@@ -332,7 +332,7 @@
 									"path": [
 										"comment",
 										"blog",
-										"id"
+										"622857a8321b16a01bd971ba"
 									]
 								}
 							},
@@ -350,7 +350,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"commentedOnId\" : \"id\",\n    \"comment\" : \"This is a sample comment\",\n    \"commenter\" : {\n        \"username\": \"UmangMi\",\n        \"name\": \"Umang Mittal\",\n        \"id\" : \"id\",\n        \"image\" : \"image.png\"\n    }\n}",
+									"raw": "{\n    \"commentedOnId\" : \"622857a8321b16a01bd971ba\",\n    \"comment\" : \"This is a sample comment\",\n    \"commenter\" : {\n        \"username\": \"UmangMi\",\n        \"name\": \"Umang Mittal\",\n        \"id\" : \"622857a8321b16a01bd971ba\",\n        \"image\" : \"image.png\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -380,7 +380,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "127.0.0.1:8080/comment/delete/id",
+									"raw": "127.0.0.1:8080/comment/delete/62285924c0abeeba333d28f9",
 									"host": [
 										"127",
 										"0",
@@ -391,7 +391,7 @@
 									"path": [
 										"comment",
 										"delete",
-										"id"
+										"62285924c0abeeba333d28f9"
 									]
 								}
 							},
@@ -407,7 +407,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8080/search/hello",
+					"raw": "http://127.0.0.1:8080/search/title",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -418,7 +418,7 @@
 					"port": "8080",
 					"path": [
 						"search",
-						"hello"
+						"title"
 					]
 				}
 			},

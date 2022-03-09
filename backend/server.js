@@ -6,8 +6,8 @@ import express from "express";
 import mongoose from "mongoose";
 import errorHandler from "./errorHandler.js";
 const app = express();
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 mongoose.connect(process.env.DATABASE_URL);
 const db = mongoose.connection;
 

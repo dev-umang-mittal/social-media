@@ -57,7 +57,7 @@ router.patch("/update/:id", async (req, res, next) => {
 // Delete a user [Authnenticated]
 router.delete("/delete/:id", async (req, res, next) => {
   try {
-    const response = await blogModel.deleteOne({ _id: req.params.id });
+    const response = await posts.deleteOne({ _id: req.params.id });
     res.status(200).json(response);
   } catch (e) {
     next(e);

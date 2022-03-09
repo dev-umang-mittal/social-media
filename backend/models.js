@@ -25,7 +25,8 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
     required: [true, "Password is required."],
-    validate: [validator.isMD5, "Password is not valid."],
+    // TODO: accepts only md5 sirngs.
+    // validate: [validator.isMD5, "Password is not valid."]
   },
   image: {
     type: String,

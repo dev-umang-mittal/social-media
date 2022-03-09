@@ -10,7 +10,7 @@ router.post("/create", async (req, res, next) => {
     commenter: req.body.commenter,
   });
   try {
-    const response = comment.save();
+    const response = await comment.save();
     res.status(200).json(response);
   } catch (e) {
     next(e);
@@ -30,7 +30,7 @@ router.get("/blog/:id", async (req, res, next) => {
 // Delete a user [Authnenticated]
 router.delete("/delete/:id", async (req, res, next) => {
   try {
-    const response = await commentModel.deleteOne({
+    const response = await comments.deleteOne({
       _id: req.params.id,
     });
     res.status(200).json(response);
