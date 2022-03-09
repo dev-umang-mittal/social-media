@@ -200,6 +200,15 @@
 							"request": {
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\" : \"This is a title\",\n    \"image\" : \"image.png\",\n    \"authorDetails\" : {\n        \"username\": \"UmangMi\",\n        \"name\": \"Umang Mittal\",\n        \"id\" : \"id\",\n        \"image\" : \"image.png\"\n    },\n    \"tags\" : [\"first\", \"post\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "127.0.0.1:8080/post/create",
 									"host": [
@@ -245,6 +254,15 @@
 							"request": {
 								"method": "PATCH",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\" : \"This is also a title\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "127.0.0.1:8080/post/update/id",
 									"host": [
