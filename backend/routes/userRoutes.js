@@ -26,7 +26,7 @@ router.post("/create", async (req, res, next) => {
   try {
     const response = await user.save();
     const accessToken = jwt.sign(
-      { sub: response._id, name: response.username },
+      { sub: response._id },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -44,7 +44,7 @@ router.post("/login", async (req, res, next) => {
       password: req.body.password,
     });
     const accessToken = jwt.sign(
-      { sub: response._id, name: response.username },
+      { sub: response._id },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -52,6 +52,11 @@ router.post("/login", async (req, res, next) => {
   } catch (e) {
     next(e);
   }
+});
+
+router.get("/logout", authorizeUser, (req, res) => {
+  const accessToken = jwt.sign({ sub: "logout" }, "", { expiresIn: "2s" });
+  res.status(200).json({ accessToken });
 });
 
 // Update user details [Authnenticated]
