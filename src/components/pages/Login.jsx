@@ -25,16 +25,12 @@ export default function Login() {
                   </li>
                   <li>
                     <input type="submit" defaultValue="Log In" />
-                    <Link to={"/forgot"}>
-                      <a href>Forgot Password</a>
-                    </Link>
+                    <Link to={"/forgot"}>Forgot Password</Link>
                   </li>
                 </ul>
                 <div className="addtnal_acnt">
                   I do not have any account yet.
-                  <Link to={"/signup"}>
-                    <a>Create My Account Now !</a>
-                  </Link>
+                  <Link to={"/signup"}>Create My Account Now !</Link>
                 </div>
               </div>
             </div>
