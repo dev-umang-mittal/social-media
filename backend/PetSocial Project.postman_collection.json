@@ -17,7 +17,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8080/user/6228568b321b16a01bd971b2",
+									"raw": "http://127.0.0.1:8080/user/622871eb2517d667a408c7bf",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -28,7 +28,7 @@
 									"port": "8080",
 									"path": [
 										"user",
-										"6228568b321b16a01bd971b2"
+										"622871eb2517d667a408c7bf"
 									]
 								}
 							},
@@ -65,12 +65,7 @@
 								}
 							},
 							"response": []
-						}
-					]
-				},
-				{
-					"name": "Authorized",
-					"item": [
+						},
 						{
 							"name": "Login",
 							"request": {
@@ -102,7 +97,12 @@
 								}
 							},
 							"response": []
-						},
+						}
+					]
+				},
+				{
+					"name": "Authorized",
+					"item": [
 						{
 							"name": "Update",
 							"request": {
@@ -118,7 +118,7 @@
 									}
 								},
 								"url": {
-									"raw": "127.0.0.1:8080/user/update/6228568b321b16a01bd971b2",
+									"raw": "127.0.0.1:8080/user/update/6228752afccd63e20bff6009",
 									"host": [
 										"127",
 										"0",
@@ -129,7 +129,7 @@
 									"path": [
 										"user",
 										"update",
-										"6228568b321b16a01bd971b2"
+										"6228752afccd63e20bff6009"
 									]
 								}
 							},
@@ -139,9 +139,15 @@
 							"name": "Delete",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "Bearer",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjI4NzFlYjI1MTdkNjY3YTQwOGM3YmYiLCJuYW1lIjoiVW1hbmdtIiwiaWF0IjoxNjQ2ODE3NzcxfQ.1BwKK7X-rKqQfpu2_E3--hiEc_fiUg-wEGA_-5eSzpw",
+										"type": "default"
+									}
+								],
 								"url": {
-									"raw": "127.0.0.1:8080/user/delete/6228568b321b16a01bd971b2",
+									"raw": "127.0.0.1:8080/user/delete/622871eb2517d667a408c7bf",
 									"host": [
 										"127",
 										"0",
@@ -152,11 +158,63 @@
 									"path": [
 										"user",
 										"delete",
-										"6228568b321b16a01bd971b2"
+										"622871eb2517d667a408c7bf"
 									]
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "127.0.0.1:8080/user/logout",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"user",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{jwtToken}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					]
 				}
@@ -198,6 +256,16 @@
 						{
 							"name": "Create",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjI4NzFlYjI1MTdkNjY3YTQwOGM3YmYiLCJuYW1lIjoiVW1hbmdtIiwiaWF0IjoxNjQ2ODE3NzcxfQ.1BwKK7X-rKqQfpu2_E3--hiEc_fiUg-wEGA_-5eSzpw",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -232,7 +300,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "127.0.0.1:8080/post/like/622857a8321b16a01bd971ba",
+									"raw": "127.0.0.1:8080/post/like/622859fe0604d30f71fdf9ae",
 									"host": [
 										"127",
 										"0",
@@ -243,7 +311,7 @@
 									"path": [
 										"post",
 										"like",
-										"622857a8321b16a01bd971ba"
+										"622859fe0604d30f71fdf9ae"
 									]
 								}
 							},
@@ -287,7 +355,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8080/post/delete/622857a8321b16a01bd971ba",
+									"raw": "http://127.0.0.1:8080/post/delete/622859fe0604d30f71fdf9ae",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -299,11 +367,41 @@
 									"path": [
 										"post",
 										"delete",
-										"622857a8321b16a01bd971ba"
+										"622859fe0604d30f71fdf9ae"
 									]
 								}
 							},
 							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{jwtToken}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					]
 				}
@@ -397,6 +495,29 @@
 							},
 							"response": []
 						}
+					],
+					"auth": {
+						"type": "bearer"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
 					]
 				}
 			]
@@ -423,6 +544,52 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Refresh Authentication Token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjI4NzFlYjI1MTdkNjY3YTQwOGM3YmYiLCJuYW1lIjoiVW1hbmdtIiwiaWF0IjoxNjQ2ODE3NzcxfQ.1BwKK7X-rKqQfpu2_E3--hiEc_fiUg-wEGA_-5eSzpw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\" : \"id\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8080/refresh",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "jwtToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2MjI4NzUyYWZjY2Q2M2UyMGJmZjYwMDkiLCJuYW1lIjoiVW1hbmdtIiwiaWF0IjoxNjQ2ODE4NjAyfQ.iH0-7TX1cmcrP4hjUamOb2gmI-PcZy-hbL-SCqfLEqs"
 		}
 	]
 }
