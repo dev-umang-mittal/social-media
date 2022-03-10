@@ -33,6 +33,19 @@ export function authorizeUser(req, res, next) {
   });
 }
 
+app.post("/refresh", (req, res, next) => {
+  try {
+    const accessToken = jwt.sign(
+      { sub: req?.id, name: req?.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    res.status(200).json({ accessToken });
+  } catch (e) {
+    next(e);
+  }
+});
+
 // => User Routes
 import userRouter from "./routes/userRoutes.js";
 app.use("/user", userRouter);

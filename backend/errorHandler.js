@@ -13,7 +13,7 @@ const handleValidationError = (err, res) => {
 const handleDuplicateKeyError = (err, res) => {
   const field = Object.keys(err.keyValue);
   const code = 409;
-  const error = `An account with that ${field} already exists.`;
+  const error = `${field} already exists. Use a different one.`;
   res.status(code).send({ messages: error, fields: field });
 };
 
