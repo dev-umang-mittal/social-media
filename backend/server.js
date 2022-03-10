@@ -29,21 +29,26 @@ export function authorizeUser(req, res, next) {
   const token = authHeader?.split(" ")[1];
   if (!token) res.sendStatus(401);
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, sub) => {
     if (err) return res.sendStatus(403);
-    req.user = user;
+    req.userId = sub;
     next();
   });
 }
 
-app.post("/refresh", (req, res, next) => {
+app.post("/refresh", async (req, res, next) => {
+  let response;
   try {
+    jwt.verify(req.body.token, process.env.JWT_SECRET, (err, id) => {
+      if (err) return res.sendStatus(403);
+      response = await users.findById(id);
+    });
     const accessToken = jwt.sign(
-      { sub: req?.id, name: req?.username },
+      { sub: response._id },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
-    res.status(200).json({ accessToken });
+    res.status(200).json({ accessToken, response });
   } catch (e) {
     next(e);
   }
@@ -59,7 +64,8 @@ app.use("/post", postRouter);
 
 // => Comment Routes
 import commentRoutes from "./routes/commentRoutes.js";
-import { posts } from "./models.js";
+import { posts, users } from "./models.js";
+import { response } from "express";
 app.use("/comment", commentRoutes);
 
 // Search blogs
