@@ -1,7 +1,7 @@
 import React, { useRef, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { useAlert } from "react-alert";
 
 export default function SignUp() {
@@ -28,13 +28,6 @@ export default function SignUp() {
         password: password.current.value,
         email: email.current.value,
       })
-      // axios
-      //   .post(`${process.env.REACT_APP_TESTING_URL}/user/create`, {
-      //     username: "uma",
-      //     name: "Umang Mittal",
-      //     password: "password",
-      //     email: "email",
-      //   })
       .then((res) => {
         console.log(res);
         localStorage.setItem("token", res.data.accessToken);
