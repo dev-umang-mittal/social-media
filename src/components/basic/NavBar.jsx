@@ -1,9 +1,32 @@
-import React, { useContext } from "react";
+import axios from "axios";
+import React, { useContext, useEffect } from "react";
+import { useAlert } from "react-alert";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function NavBar() {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+  const alert = useAlert();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    axios
+      .get(`${process.env.REACT_APP_TESTING_URL}/refresh/${token}`)
+      .then((res) => {
+        setUser(res.data);
+        localStorage.setItem("token", res.data.accessToken);
+      })
+      .catch((err) => {
+        alert.error("An Error Occured. Please login Again.");
+      });
+  }, []);
+
+  function logout() {
+    localStorage.removeItem("token");
+    setUser(undefined);
+  }
+
   return (
     <>
       <div className="navbar navbar-inverse navbar-fixed-top">
@@ -108,11 +131,11 @@ export default function NavBar() {
                   </Link>
                 </li>
               )}
-              <li>
-                <Link to={"/signup"}>
-                  <div>Signup</div>
-                </Link>
-              </li>
+              {user && (
+                <li>
+                  <a onClick={logout}>Logout</a>
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -126,7 +149,6 @@ export default function NavBar() {
               <div className="image_div">
                 <img src={require("../../assets/images/pic.png")} />
               </div>
-              <div className="info_div1">Me</div>
             </Link>
           </div>
         </div>
