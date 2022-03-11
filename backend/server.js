@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import errorHandler from "./errorHandler.js";
 import jwt from "jsonwebtoken";
 import cors from "cors";
+import { posts, users } from "./models.js";
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -36,24 +37,6 @@ export function authorizeUser(req, res, next) {
   });
 }
 
-app.post("/refresh", async (req, res, next) => {
-  let response;
-  try {
-    jwt.verify(req.body.token, process.env.JWT_SECRET, (err, id) => {
-      if (err) return res.sendStatus(403);
-      response = await users.findById(id);
-    });
-    const accessToken = jwt.sign(
-      { sub: response._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-    res.status(200).json({ accessToken, response });
-  } catch (e) {
-    next(e);
-  }
-});
-
 // => User Routes
 import userRouter from "./routes/userRoutes.js";
 app.use("/user", userRouter);
@@ -64,9 +47,25 @@ app.use("/post", postRouter);
 
 // => Comment Routes
 import commentRoutes from "./routes/commentRoutes.js";
-import { posts, users } from "./models.js";
-import { response } from "express";
 app.use("/comment", commentRoutes);
+
+app.get("/refresh/:token", (req, res, next) => {
+  let response;
+  try {
+    jwt.verify(req.params.token, process.env.JWT_SECRET, async (err, token) => {
+      if (err) return res.sendStatus(403);
+      response = await users.findById(token.sub);
+      const accessToken = jwt.sign(
+        { sub: response._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+      );
+      res.status(200).json({ accessToken, response });
+    });
+  } catch (e) {
+    next(e);
+  }
+});
 
 // Search blogs
 app.get("/search/:term", async (req, res, next) => {
