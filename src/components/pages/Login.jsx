@@ -1,7 +1,44 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useContext, useEffect, useRef } from "react";
+import { useAlert } from "react-alert";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
+  const { user, setUser } = useContext(AuthContext);
+  const email = useRef(email);
+  const password = useRef(password);
+  const alert = useAlert();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+      return;
+    }
+  }, [user]);
+
+  function login() {
+    console.log("j");
+    axios
+      .post(`${process.env.REACT_APP_TESTING_URL}/user/login`, {
+        email: email.current.value,
+        password: password.current.value,
+      })
+      .then((res) => {
+        console.log(res);
+        if (!res.data.response) {
+          alert.error("Account Not found. Try again");
+          return;
+        }
+        localStorage.setItem("token", res.data.accessToken);
+        setUser(res.data);
+      })
+      .catch((error) => {
+        alert.error(error.response.data.message);
+      });
+  }
+
   return (
     <>
       <div>
@@ -13,18 +50,26 @@ export default function Login() {
                 <ul>
                   <li>
                     <span>Email-ID</span>
-                    <input type="text" placeholder="Enter your email" />
+                    <input
+                      type="text"
+                      placeholder="Enter your email"
+                      ref={email}
+                    />
                   </li>
                   <li>
                     <span>Password</span>
-                    <input type="text" placeholder="Enter your password" />
+                    <input
+                      type="text"
+                      placeholder="Enter your password"
+                      ref={password}
+                    />
                   </li>
                   <li>
-                    <input type="checkbox" />
-                    Remember Me
-                  </li>
-                  <li>
-                    <input type="submit" defaultValue="Log In" />
+                    <input
+                      type="submit"
+                      defaultValue="Log In"
+                      onClick={login}
+                    />
                     <Link to={"/forgot"}>Forgot Password</Link>
                   </li>
                 </ul>
