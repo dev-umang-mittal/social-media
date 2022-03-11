@@ -32,7 +32,7 @@ router.get("/blog/:id", async (req, res, next) => {
 router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
     const comment = await comments.findById(req.params.id);
-    if (comment.commenter.id !== req.user.sub) res.sendStatus(403);
+    if (comment.commenter.id !== req.userId) res.sendStatus(403);
     const response = await comments.deleteOne({
       _id: req.params.id,
     });
