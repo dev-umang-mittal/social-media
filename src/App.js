@@ -16,6 +16,7 @@ const options = {
   timeout: 5000,
   position: positions.BOTTOM_RIGHT,
 };
+
 export default class App extends Component {
   render() {
     return (

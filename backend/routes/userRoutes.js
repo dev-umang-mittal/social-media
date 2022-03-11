@@ -43,6 +43,10 @@ router.post("/login", async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
     });
+    if (!response) {
+      res.json({ response });
+      return;
+    }
     const accessToken = jwt.sign(
       { sub: response._id },
       process.env.JWT_SECRET,
