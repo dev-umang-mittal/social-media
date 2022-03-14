@@ -4,9 +4,11 @@ const AuthContext = React.createContext();
 
 const AuthState = (props) => {
   const [user, setUser] = useState();
-  // const [user, setUser] = useState({ username: "umang" });
+  const [isAuthenticated, setAuthenticationStatus] = useState(false);
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider
+      value={{ user, setUser, isAuthenticated, setAuthenticationStatus }}
+    >
       {props.children}
     </AuthContext.Provider>
   );
