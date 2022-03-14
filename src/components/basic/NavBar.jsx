@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function NavBar() {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, setAuthenticationStatus } = useContext(AuthContext);
   const alert = useAlert();
 
   useEffect(() => {
@@ -15,6 +15,7 @@ export default function NavBar() {
       .get(`${process.env.REACT_APP_TESTING_URL}/refresh/${token}`)
       .then((res) => {
         setUser(res.data);
+        setAuthenticationStatus(true);
         localStorage.setItem("token", res.data.accessToken);
       })
       .catch((err) => {
@@ -25,6 +26,7 @@ export default function NavBar() {
   function logout() {
     localStorage.removeItem("token");
     setUser(undefined);
+    setAuthenticationStatus(false);
   }
 
   return (
@@ -126,7 +128,7 @@ export default function NavBar() {
               )}
               {user && (
                 <li>
-                  <Link to={"/user/id"}>
+                  <Link to={`/user/${user.response._id}`}>
                     <div>Dashboard</div>
                   </Link>
                 </li>
@@ -145,7 +147,7 @@ export default function NavBar() {
           </div>
           <input type="text" placeholder="Search" className="txt_box" />
           <div className="info_div">
-            <Link to={user ? "/user/id" : "/login"}>
+            <Link to={user ? `/user/${user.response._id}` : "/login"}>
               <div className="image_div">
                 <img src={require("../../assets/images/pic.png")} />
               </div>
