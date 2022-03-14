@@ -5,21 +5,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
-  const { user, setUser } = useContext(AuthContext);
+  const {
+    user,
+    setUser,
+    isAuthenticated,
+    setAuthenticationStatus,
+  } = useContext(AuthContext);
   const email = useRef(email);
   const password = useRef(password);
   const alert = useAlert();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
       navigate("/home");
       return;
     }
-  }, [user]);
+  }, [isAuthenticated]);
 
   function login() {
-    console.log("j");
     axios
       .post(`${process.env.REACT_APP_TESTING_URL}/user/login`, {
         email: email.current.value,
@@ -32,6 +36,7 @@ export default function Login() {
           return;
         }
         localStorage.setItem("token", res.data.accessToken);
+        setAuthenticationStatus(true);
         setUser(res.data);
       })
       .catch((error) => {
@@ -89,7 +94,7 @@ export default function Login() {
                 Ipsum, you need to be sure there isn't anything embarrassing
                 hidden in the middle of text.{" "}
               </p>
-              <img src="images/img_9.png" alt="" />
+              <img src={require("../../assets/images/img_9.png")} alt="" />
             </div>
           </div>
         </div>
