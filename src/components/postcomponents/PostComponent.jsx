@@ -1,24 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function PostComponent() {
+export default function PostComponent({ postDetails }) {
   return (
     <>
       <div className="contnt_2">
         <div className="div_a">
           <div className="div_title">
-            <Link to={"/post/id"}>
-              User Interface PSD Source files Web Designing for web
-            </Link>
+            <Link to={`/post/${postDetails._id}`}>{postDetails.title}</Link>
           </div>
           <div className="btm_rgt">
             <div className="btm_arc">Cats</div>
           </div>
           <div className="div_top">
-            <Link to={"/user/id"}>
+            <Link to={`/user/${postDetails.authorDetails.id}`}>
               <div className="div_top_lft">
-                <img src={require("../../assets/images/img_6.png")} />
-                Steave Waugh
+                {/* <img src={require("../../assets/images/img_6.png")} /> */}
+                <img src={postDetails.authorDetails.image} />
+                {postDetails.authorDetails.name}
               </div>
             </Link>
             <div className="div_top_rgt">
@@ -27,7 +26,7 @@ export default function PostComponent() {
             </div>
           </div>
           <div className="div_image">
-            <img src={require("../../assets/images/lft_img.png")} alt="pet" />
+            <img src={postDetails.image} alt="pet" />
           </div>
           <div className="div_btm">
             <div className="btm_list">
@@ -62,7 +61,7 @@ export default function PostComponent() {
                         alt="share"
                       />
                     </span>
-                    0 Likes
+                    {postDetails.likes} Likes
                   </Link>
                 </li>
                 <li>
@@ -73,7 +72,7 @@ export default function PostComponent() {
                         alt="share"
                       />
                     </span>
-                    4 Comments
+                    {postDetails.comments} Comments
                   </Link>
                 </li>
               </ul>

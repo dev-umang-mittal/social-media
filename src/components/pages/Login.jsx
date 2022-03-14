@@ -23,11 +23,11 @@ export default function Login() {
     }
   }, [isAuthenticated]);
 
-  function login() {
+  function login(email, password) {
     axios
       .post(`${process.env.REACT_APP_TESTING_URL}/user/login`, {
-        email: email.current.value,
-        password: password.current.value,
+        email: email,
+        password: password,
       })
       .then((res) => {
         console.log(res);
@@ -73,7 +73,15 @@ export default function Login() {
                     <input
                       type="submit"
                       defaultValue="Log In"
-                      onClick={login}
+                      onClick={() => {
+                        login(email.current.value, password.current.value);
+                      }}
+                    />
+                    <input
+                      defaultValue="Log In [Test]"
+                      onClick={() => {
+                        login("umang@email.com", "password");
+                      }}
                     />
                     <Link to={"/forgot"}>Forgot Password</Link>
                   </li>
@@ -92,7 +100,7 @@ export default function Login() {
                 injected humour, or randomised words which don't look even
                 slightly believable. If you are going to use a passage of Lorem
                 Ipsum, you need to be sure there isn't anything embarrassing
-                hidden in the middle of text.{" "}
+                hidden in the middle of text.
               </p>
               <img src={require("../../assets/images/img_9.png")} alt="" />
             </div>
