@@ -19,10 +19,34 @@ router.post("/create", authorizeUser, async (req, res, next) => {
   }
 });
 
+// Get all posts for timeline
+router.get("/timeline", async (req, res, next) => {
+  try {
+    const response = await posts
+      .aggregate([{ $sort: { createdAt: -1 } }, { $limit: 20 }])
+      .exec();
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
 // Get a post details
 router.get("/:id", async (req, res, next) => {
   try {
     const response = await posts.findById(req.params.id);
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// Get all posts of a user
+router.get("/all/:userId", async (req, res, next) => {
+  try {
+    const response = await posts.find({
+      "authorDetails.id": req.params.userId,
+    });
     res.status(200).json(response);
   } catch (e) {
     next(e);
