@@ -5,7 +5,12 @@ import axios from "axios";
 import { useAlert } from "react-alert";
 
 export default function SignUp() {
-  const { user, setUser } = useContext(AuthContext);
+  const {
+    user,
+    setUser,
+    isAuthenticated,
+    setAuthenticationStatus,
+  } = useContext(AuthContext);
   const name = useRef();
   const username = useRef();
   const email = useRef();
@@ -14,11 +19,11 @@ export default function SignUp() {
   const alert = useAlert();
 
   useEffect(() => {
-    if (user) {
+    if (isAuthenticated) {
       navigate("/home");
       return;
     }
-  }, [user]);
+  }, [isAuthenticated]);
 
   function handleSubmit() {
     axios
@@ -29,8 +34,8 @@ export default function SignUp() {
         email: email.current.value,
       })
       .then((res) => {
-        console.log(res);
         localStorage.setItem("token", res.data.accessToken);
+        setAuthenticationStatus(true);
         setUser(res.data);
       })
       .catch((error) => {
