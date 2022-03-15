@@ -9,7 +9,7 @@ const handleDuplicateKeyError = (err, res) => {
   const field = Object.keys(err.keyValue);
   const code = 409;
   const error = `${field} already exists. Use a different one.`;
-  res.status(code).send({ messages: error, fields: field });
+  res.status(code).send({ messages: [error], fields: field });
 };
 
 export default function errorHandler(err, req, res, next) {
