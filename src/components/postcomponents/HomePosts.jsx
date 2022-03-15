@@ -1,7 +1,27 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useAlert } from "react-alert";
 import PostComponent from "./PostComponent";
 
 export default function HomePosts() {
+  const [posts, setPosts] = useState();
+  const alert = useAlert();
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_TESTING_URL}/post/timeline`)
+      .then((res) => {
+        if (res.data.length === 0)
+          alert.info("No posts are availbale right now");
+        setPosts(res.data);
+      })
+      .catch((error) => {
+        alert.error("Something went wrong. Try again later");
+        console.log(error.response);
+        alert.error(error.response.statusText);
+      });
+  }, []);
+
   return (
     <>
       <div className="content_lft">
@@ -58,7 +78,15 @@ export default function HomePosts() {
             <div className="post_txt">4 New Post Updates</div>
           </div>
         </div>
-        <PostComponent></PostComponent>
+        {posts &&
+          posts.map((post) => {
+            return (
+              <PostComponent
+                key={post.title}
+                postDetails={post}
+              ></PostComponent>
+            );
+          })}
       </div>
     </>
   );
