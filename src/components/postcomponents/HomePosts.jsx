@@ -4,7 +4,7 @@ import { useAlert } from "react-alert";
 import PostComponent from "./PostComponent";
 
 export default function HomePosts() {
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState([]);
   const alert = useAlert();
 
   useEffect(() => {
@@ -17,8 +17,6 @@ export default function HomePosts() {
       })
       .catch((error) => {
         alert.error("Something went wrong. Try again later");
-        console.log(error.response);
-        alert.error(error.response.statusText);
       });
   }, []);
 
@@ -78,15 +76,11 @@ export default function HomePosts() {
             <div className="post_txt">4 New Post Updates</div>
           </div>
         </div>
-        {posts &&
-          posts.map((post) => {
-            return (
-              <PostComponent
-                key={post.title}
-                postDetails={post}
-              ></PostComponent>
-            );
-          })}
+        {posts.map((post) => {
+          return (
+            <PostComponent key={post.title} postDetails={post}></PostComponent>
+          );
+        })}
       </div>
     </>
   );
