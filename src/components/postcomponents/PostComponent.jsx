@@ -16,7 +16,10 @@ export default function PostComponent({ postDetails }) {
             <Link to={`/user/${postDetails.authorDetails.id}`}>
               <div className="div_top_lft">
                 {/* <img src={require("../../assets/images/img_6.png")} /> */}
-                <img src={postDetails.authorDetails.image} />
+                <img
+                  src={postDetails.authorDetails.image}
+                  style={{ borderRadius: 50 + "%", width: 30 + "px" }}
+                />
                 {postDetails.authorDetails.name}
               </div>
             </Link>
