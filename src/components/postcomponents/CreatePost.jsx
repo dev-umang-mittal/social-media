@@ -1,10 +1,17 @@
-import React, { useState, useRef } from "react";
+import axios from "axios";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { useAlert } from "react-alert";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 //TODO use useRef to update tag value when clicked.
 // Add title and image useRef.
 export default function CreatePost() {
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useContext(AuthContext);
   const [imgSrc, setImgSrc] = useState();
   const title = useRef();
   const tag = useRef();
+  const alert = useAlert();
 
   function fileChanged(e) {
     // Assuming only image
@@ -15,6 +22,43 @@ export default function CreatePost() {
       setImgSrc(reader.result);
     };
   }
+
+  function submitPost() {
+    console.log(user, isAuthenticated);
+    axios
+      .post(
+        `${process.env.REACT_APP_TESTING_URL}/post/create`,
+        {
+          title: title.current.value,
+          image: `https://picsum.photos/id/${Math.floor(
+            Math.random() * 1000
+          )}/400/200`,
+          tags: [tag.current.value],
+          authorDetails: {
+            username: user.response.username,
+            name: user.response.name,
+            id: user.response._id,
+            image: user.response.image,
+          },
+        },
+        { headers: { Authorization: `Bearer ${user.accessToken}` } }
+      )
+      .then((res) => {
+        console.log(res);
+        alert.success("post created successfully");
+        navigate(`/user/${user.response._id}`);
+      })
+      .catch((e) => {
+        alert.error(e.response.statusText);
+      });
+  }
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+  }, []);
 
   return (
     <>
@@ -61,8 +105,8 @@ export default function CreatePost() {
               </div>
             </li>
           </ul>
-          <div className="view_div">
-            <a>POST</a>
+          <div className="view_div" onClick={submitPost}>
+            <div>POST</div>
           </div>
         </div>
       </div>
