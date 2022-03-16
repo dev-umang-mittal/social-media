@@ -1,12 +1,14 @@
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useAlert } from "react-alert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function NavBar() {
   const { user, setUser, setAuthenticationStatus } = useContext(AuthContext);
   const alert = useAlert();
+  const navigate = useNavigate();
+  const searchTerm = useRef();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,6 +29,16 @@ export default function NavBar() {
     localStorage.removeItem("token");
     setUser(undefined);
     setAuthenticationStatus(false);
+    navigate("/");
+  }
+
+  function search(e) {
+    if (e.code !== "Enter") return;
+    if (searchTerm.current.value === "") {
+      navigate("/home");
+    } else {
+      navigate("/search/" + searchTerm.current.value);
+    }
   }
 
   return (
@@ -145,11 +157,22 @@ export default function NavBar() {
           <div className="flag_div">
             <img src={require("../../assets/images/flag.png")} />
           </div>
-          <input type="text" placeholder="Search" className="txt_box" />
+          <input
+            type="text"
+            ref={searchTerm}
+            placeholder="Search"
+            className="txt_box"
+            onKeyDown={search}
+          />
           <div className="info_div">
             <Link to={user ? `/user/${user.response._id}` : "/login"}>
               <div className="image_div">
-                <img src={require("../../assets/images/pic.png")} />
+                {user && (
+                  <img
+                    src={user.response.image}
+                    style={{ borderRadius: 50 + "%" }}
+                  />
+                )}
               </div>
             </Link>
           </div>
