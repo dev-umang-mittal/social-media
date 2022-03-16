@@ -9,6 +9,7 @@
 
 # testing
 /coverage
+/backend/public
 
 # production
 /build
