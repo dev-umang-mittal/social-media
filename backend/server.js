@@ -12,10 +12,9 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: "*" }));
-
 mongoose.connect(process.env.DATABASE_URL);
 const db = mongoose.connection;
-
+app.use(express.static("public"));
 db.on("error", (error) => {
   console.log(error);
 });
