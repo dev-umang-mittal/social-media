@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useState, useRef, useEffect, useContext } from "react";
-import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 //TODO use useRef to update tag value when clicked.
@@ -9,13 +8,16 @@ export default function CreatePost() {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useContext(AuthContext);
   const [imgSrc, setImgSrc] = useState();
+  const [imgFile, setImgfile] = useState();
   const title = useRef();
   const tag = useRef();
-  const alert = useAlert();
+  const formData = new FormData();
+  let file;
 
   function fileChanged(e) {
     // Assuming only image
-    let file = e.target.files[0];
+    file = e.target.files[0];
+    setImgfile(e.target.files[0]);
     let reader = new FileReader();
     let url = reader.readAsDataURL(file);
     reader.onloadend = function(e) {
@@ -24,25 +26,24 @@ export default function CreatePost() {
   }
 
   function submitPost() {
-    console.log(user, isAuthenticated);
+    formData.append("title", title.current.value);
+    formData.append("image", imgFile);
+    formData.append(
+      "authorDetails",
+      JSON.stringify({
+        username: user.response.username,
+        name: user.response.name,
+        id: user.response._id,
+        image: user.response.image,
+      })
+    );
     axios
-      .post(
-        `${process.env.REACT_APP_TESTING_URL}/post/create`,
-        {
-          title: title.current.value,
-          image: `https://picsum.photos/id/${Math.floor(
-            Math.random() * 1000
-          )}/400/200`,
-          tags: [tag.current.value],
-          authorDetails: {
-            username: user.response.username,
-            name: user.response.name,
-            id: user.response._id,
-            image: user.response.image,
-          },
+      .post(`${process.env.REACT_APP_TESTING_URL}/post/create`, formData, {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+          "Content-Type": "multipart/form-data",
         },
-        { headers: { Authorization: `Bearer ${user.accessToken}` } }
-      )
+      })
       .then((res) => {
         console.log(res);
         alert.success("post created successfully");

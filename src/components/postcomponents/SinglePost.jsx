@@ -8,9 +8,9 @@ export default function SinglePost() {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const [post, setPost] = useState();
-  const alert = useAlert();
   const [comments, setComments] = useState([]);
   const comment = useRef();
+  const alert = useAlert();
   //TODO: use the id to fetch a certain blog.
 
   useEffect(() => {
@@ -37,16 +37,24 @@ export default function SinglePost() {
   }
 
   function submitComment(id) {
-    axios.post(`${process.env.REACT_APP_TESTING_URL}/comment/create`, {
-      commentedOnId: id,
-      comment: comment.current.value,
-      commenter: {
-        name: user.response.name,
-        image: user.response.image,
-        id: user.response.id,
-        username: user.response.username,
-      },
-    });
+    axios
+      .post(`${process.env.REACT_APP_TESTING_URL}/comment/create`, {
+        commentedOnId: id,
+        comment: comment.current.value,
+        commenter: {
+          name: user.response.name,
+          image: user.response.image,
+          id: user.response.id,
+          username: user.response.username,
+        },
+      })
+      .then((res) => {
+        getComments(post._id);
+        alert.success("Comment created successfully");
+      })
+      .catch((e) => {
+        alert.error(e.response.statusText);
+      });
   }
 
   return (
