@@ -1,23 +1,30 @@
 import { posts } from "../models.js";
 import express from "express";
 import { authorizeUser } from "../server.js";
+import upload from "../imageUploader.js";
 const router = express.Router();
 
 // Create a post [Authenticated]
-router.post("/create", authorizeUser, async (req, res, next) => {
-  const post = new posts({
-    title: req.body.title,
-    image: req.body.image,
-    authorDetails: req.body.authorDetails,
-    tags: req.body.tags,
-  });
-  try {
-    const response = await post.save();
-    res.status(201).json(response);
-  } catch (e) {
-    next(e);
+router.post(
+  "/create",
+  authorizeUser,
+  upload.single("image"),
+  async (req, res, next) => {
+    console.log(req.body);
+    const post = new posts({
+      title: req.body.title,
+      image: "http://127.0.0.1:8080/" + req.file.path.slice(6),
+      authorDetails: JSON.parse(req.body.authorDetails),
+      tags: req.body.tags,
+    });
+    try {
+      const response = await post.save();
+      res.status(201).json(response);
+    } catch (e) {
+      next(e);
+    }
   }
-});
+);
 
 // Get all posts for timeline
 router.get("/timeline", async (req, res, next) => {
