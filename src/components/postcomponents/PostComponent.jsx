@@ -1,7 +1,29 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { useAlert } from "react-alert";
 import { Link } from "react-router-dom";
+import { AuthContext } from "./../../context/AuthContext";
 
 export default function PostComponent({ postDetails }) {
+  const alert = useAlert();
+  const { user } = useContext(AuthContext);
+  const [likeStatus, likeStatusChange] = useState(false);
+
+  function likeBlog() {
+    if (likeStatus) return;
+    axios
+      .get(
+        `${process.env.REACT_APP_TESTING_URL}/post/like/${postDetails._id}`,
+        { headers: { Authorization: `Bearer ${user.accessToken}` } }
+      )
+      .then((res) => {
+        likeStatusChange(true);
+      })
+      .catch((e) => {
+        alert.error(e.response.statusText);
+      });
+  }
+
   return (
     <>
       <div className="contnt_2">
@@ -57,7 +79,7 @@ export default function PostComponent({ postDetails }) {
                   </a>
                 </li>
                 <li>
-                  <Link to={"/post/id"}>
+                  <a onClick={likeBlog}>
                     <span className="btn_icon">
                       <img
                         src={require("../../assets/images/icon_003.png")}
@@ -65,7 +87,7 @@ export default function PostComponent({ postDetails }) {
                       />
                     </span>
                     {postDetails.likes} Likes
-                  </Link>
+                  </a>
                 </li>
                 <li>
                   <Link to={"/post/id"}>
