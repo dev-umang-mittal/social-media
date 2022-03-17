@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { useAlert } from "react-alert";
+
 //TODO use useRef to update tag value when clicked.
 // Add title and image useRef.
 export default function CreatePost() {
@@ -13,6 +15,7 @@ export default function CreatePost() {
   const tag = useRef();
   const formData = new FormData();
   let file;
+  const alert = useAlert();
 
   function fileChanged(e) {
     // Assuming only image
@@ -37,6 +40,11 @@ export default function CreatePost() {
         image: user.response.image,
       })
     );
+    if (tag.current.value === "") {
+      formData.append("tags", "Others");
+    } else {
+      formData.append("tags", tag.current.value);
+    }
     axios
       .post(`${process.env.REACT_APP_TESTING_URL}/post/create`, formData, {
         headers: {
@@ -50,6 +58,7 @@ export default function CreatePost() {
         navigate(`/user/${user.response._id}`);
       })
       .catch((e) => {
+        console.log(e);
         alert.error(e.response.statusText);
       });
   }

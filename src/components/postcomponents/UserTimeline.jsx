@@ -1,8 +1,9 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import PostComponent from "./PostComponent";
+import { useAlert } from "react-alert";
 
 export default function UserTimeline() {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -10,6 +11,8 @@ export default function UserTimeline() {
   const params = useParams();
   const [posts, setPosts] = useState();
   const [isEditable, setEditable] = useState(false);
+  const bioRef = useRef();
+  const alert = useAlert();
 
   function getUser() {
     axios
@@ -29,6 +32,24 @@ export default function UserTimeline() {
 
   function updateDetails() {
     setEditable(!isEditable);
+    if (!isEditable) return;
+    console.log(bioRef.current);
+    axios
+      .patch(
+        `${process.env.REACT_APP_TESTING_URL}/user/update/${params.id}`,
+        { bio: bioRef.current.value },
+        { headers: { Authorization: `Bearer ${user.accessToken}` } }
+      )
+      .then((res) => {
+        alert.success("Update Successfully");
+      })
+      .catch((e) => {
+        try {
+          alert.error(e.message);
+        } catch {
+          alert.error(e.response.statusText);
+        }
+      });
   }
 
   useEffect(() => {
@@ -90,6 +111,8 @@ export default function UserTimeline() {
                         <input
                           type="text"
                           placeholder={userDetails.bio}
+                          defaultValue={userDetails.bio}
+                          ref={bioRef}
                         ></input>
                       )}
                     </li>

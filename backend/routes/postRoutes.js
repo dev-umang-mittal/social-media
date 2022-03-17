@@ -2,6 +2,7 @@ import { posts } from "../models.js";
 import express from "express";
 import { authorizeUser } from "../server.js";
 import upload from "../imageUploader.js";
+import mongoose from "mongoose";
 const router = express.Router();
 
 // Create a post [Authenticated]
@@ -10,7 +11,6 @@ router.post(
   authorizeUser,
   upload.single("image"),
   async (req, res, next) => {
-    console.log(req.body);
     const post = new posts({
       title: req.body.title,
       image: "http://127.0.0.1:8080/" + req.file.path.slice(6),
@@ -51,9 +51,17 @@ router.get("/:id", async (req, res, next) => {
 // Get all posts of a user
 router.get("/all/:userId", async (req, res, next) => {
   try {
-    const response = await posts.find({
-      "authorDetails.id": req.params.userId,
-    });
+    const response = await posts
+      .aggregate([
+        {
+          $match: {
+            "authorDetails.id": mongoose.Types.ObjectId(req.params.userId),
+          },
+        },
+        { $sort: { createdAt: -1 } },
+        { $limit: 20 },
+      ])
+      .exec();
     res.status(200).json(response);
   } catch (e) {
     next(e);
@@ -77,7 +85,8 @@ router.get("/like/:id", authorizeUser, async (req, res, next) => {
 router.patch("/update/:id", authorizeUser, async (req, res, next) => {
   try {
     const post = await posts.findById(req.params.id);
-    if (post?.authorDetails?._id !== req.userId) res.sendStatus(403);
+    if (post?.authorDetails?.id.toString() !== req.userId.sub)
+      res.sendStatus(403);
     const response = await posts.findOneAndUpdate(
       { _id: req.params.id },
       req.body
@@ -92,7 +101,8 @@ router.patch("/update/:id", authorizeUser, async (req, res, next) => {
 router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
     const post = await posts.findById(req.params.id);
-    if (post?.authorDetails?._id !== req.userId) res.sendStatus(403);
+    if (post?.authorDetails?.id.toString() !== req.userId.sub)
+      res.sendStatus(403);
     const response = await posts.deleteOne({ _id: req.params.id });
     res.status(200).json(response);
   } catch (e) {

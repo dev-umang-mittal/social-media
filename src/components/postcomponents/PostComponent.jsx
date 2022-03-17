@@ -2,11 +2,11 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { Link } from "react-router-dom";
-import { AuthContext } from "./../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function PostComponent({ postDetails }) {
   const alert = useAlert();
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const [likeStatus, likeStatusChange] = useState(false);
 
   function likeBlog() {
@@ -25,6 +25,21 @@ export default function PostComponent({ postDetails }) {
       });
   }
 
+  function deleteBlog() {
+    if (user.response._id !== postDetails.authorDetails.id) return;
+    axios
+      .delete(
+        `${process.env.REACT_APP_TESTING_URL}/post/delete/${postDetails._id}`,
+        { headers: { Authorization: `Bearer ${user.accessToken}` } }
+      )
+      .then((res) => {
+        alert.success("Post Deleted Successfully");
+      })
+      .catch((e) => {
+        alert.error(e.response.statusText);
+      });
+  }
+
   return (
     <>
       <div className="contnt_2">
@@ -33,7 +48,7 @@ export default function PostComponent({ postDetails }) {
             <Link to={`/post/${postDetails._id}`}>{postDetails.title}</Link>
           </div>
           <div className="btm_rgt">
-            <div className="btm_arc">Cats</div>
+            <div className="btm_arc">{postDetails.tags}</div>
           </div>
           <div className="div_top">
             <Link to={`/user/${postDetails.authorDetails.id}`}>
@@ -99,7 +114,7 @@ export default function PostComponent({ postDetails }) {
                   </a>
                 </li>
                 <li>
-                  <Link to={"/post/id"}>
+                  <Link to={`/post/${postDetails._id}`}>
                     <span className="btn_icon">
                       <img
                         src={require("../../assets/images/icon_004.png")}
@@ -109,6 +124,14 @@ export default function PostComponent({ postDetails }) {
                     {postDetails.comments} Comments
                   </Link>
                 </li>
+                {isAuthenticated &&
+                  user.response._id === postDetails.authorDetails.id && (
+                    <li onClick={deleteBlog}>
+                      <Link to={`/user/${postDetails.authorDetails.id}`}>
+                        Delete
+                      </Link>
+                    </li>
+                  )}
               </ul>
             </div>
           </div>
