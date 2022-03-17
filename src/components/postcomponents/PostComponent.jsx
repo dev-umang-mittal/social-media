@@ -18,6 +18,7 @@ export default function PostComponent({ postDetails }) {
       )
       .then((res) => {
         likeStatusChange(true);
+        ++postDetails.likes;
       })
       .catch((e) => {
         alert.error(e.response.statusText);
@@ -79,7 +80,15 @@ export default function PostComponent({ postDetails }) {
                   </a>
                 </li>
                 <li>
-                  <a onClick={likeBlog}>
+                  <a
+                    onClick={
+                      likeStatus
+                        ? likeBlog
+                        : () => {
+                            alert.info("please login to like.");
+                          }
+                    }
+                  >
                     <span className="btn_icon">
                       <img
                         src={require("../../assets/images/icon_003.png")}

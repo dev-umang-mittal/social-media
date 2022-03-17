@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAlert } from "react-alert";
+import md5 from "md5";
 
 export default function SignUp() {
   const {
@@ -30,7 +31,7 @@ export default function SignUp() {
       .post(`${process.env.REACT_APP_TESTING_URL}/user/create`, {
         username: username.current.value,
         name: name.current.value,
-        password: password.current.value,
+        password: md5(password.current.value),
         email: email.current.value,
       })
       .then((res) => {
@@ -74,7 +75,7 @@ export default function SignUp() {
                   <li>
                     <span>Password</span>
                     <input
-                      type="text"
+                      type="password"
                       placeholder="Enter your password"
                       ref={password}
                     />

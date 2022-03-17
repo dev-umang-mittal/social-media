@@ -1,4 +1,5 @@
 import axios from "axios";
+import md5 from "md5";
 import React, { useContext, useEffect, useRef } from "react";
 import { useAlert } from "react-alert";
 import { Link, useNavigate } from "react-router-dom";
@@ -27,7 +28,7 @@ export default function Login() {
     axios
       .post(`${process.env.REACT_APP_TESTING_URL}/user/login`, {
         email: email,
-        password: password,
+        password: md5(password),
       })
       .then((res) => {
         console.log(res);
@@ -64,7 +65,7 @@ export default function Login() {
                   <li>
                     <span>Password</span>
                     <input
-                      type="text"
+                      type="password"
                       placeholder="Enter your password"
                       ref={password}
                     />

@@ -9,6 +9,7 @@ export default function UserTimeline() {
   const [userDetails, setUserDetails] = useState();
   const params = useParams();
   const [posts, setPosts] = useState();
+  const [isEditable, setEditable] = useState(false);
 
   function getUser() {
     axios
@@ -24,6 +25,10 @@ export default function UserTimeline() {
       .then((res) => {
         setPosts(res.data);
       });
+  }
+
+  function updateDetails() {
+    setEditable(!isEditable);
   }
 
   useEffect(() => {
@@ -54,8 +59,9 @@ export default function UserTimeline() {
               </div>
               <div className="profile_info">
                 <div className="edit_div">
-                  <a href="#">
-                    Edit{" "}
+                  <a onClick={updateDetails}>
+                    {isEditable ? "Save" : "Edit"}
+
                     <img
                       src={require("../../assets/images/timeline_img.png")}
                     />
@@ -78,8 +84,14 @@ export default function UserTimeline() {
                     <li>
                       <div className="div_name1">Description :</div>
                       <div className="div_name3">
-                        {userDetails && userDetails.bio}
+                        {userDetails && !isEditable && userDetails.bio}
                       </div>
+                      {isEditable && (
+                        <input
+                          type="text"
+                          placeholder={userDetails.bio}
+                        ></input>
+                      )}
                     </li>
                   </ul>
                 </div>
