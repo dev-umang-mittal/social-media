@@ -31,7 +31,7 @@ export default function SideBar() {
         <div className="rght_list">
           <ul>
             <li>
-              <a>
+              <Link to={"/category/cats"}>
                 <span className="list_icon">
                   <img
                     src={require("../../assets/images/icon_01.png")}
@@ -39,10 +39,10 @@ export default function SideBar() {
                   />
                 </span>
                 CATS
-              </a>
+              </Link>
             </li>
             <li>
-              <a>
+              <Link to={"/category/dogs"}>
                 <span className="list_icon">
                   <img
                     src={require("../../assets/images/icon_02.png")}
@@ -50,10 +50,10 @@ export default function SideBar() {
                   />
                 </span>
                 Dogs
-              </a>
+              </Link>
             </li>
             <li>
-              <a>
+              <Link to={"/category/birds"}>
                 <span className="list_icon">
                   <img
                     src={require("../../assets/images/icon_03.png")}
@@ -61,10 +61,10 @@ export default function SideBar() {
                   />
                 </span>
                 Birds
-              </a>
+              </Link>
             </li>
             <li>
-              <a>
+              <Link to={"/category/rabbit"}>
                 <span className="list_icon">
                   <img
                     src={require("../../assets/images/icon_04.png")}
@@ -72,10 +72,10 @@ export default function SideBar() {
                   />
                 </span>
                 Rabbit
-              </a>
+              </Link>
             </li>
             <li>
-              <a>
+              <Link to={"/category/others"}>
                 <span className="list_icon">
                   <img
                     src={require("../../assets/images/icon_05.png")}
@@ -83,7 +83,7 @@ export default function SideBar() {
                   />
                 </span>
                 Others
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
