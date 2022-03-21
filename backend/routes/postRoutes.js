@@ -48,6 +48,20 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+// Get post of a certain category
+router.get("/category/:tag", async (req, res, next) => {
+  try {
+    const response = await posts.aggregate([
+      { $match: { $text: { $search: req.params.tag } } },
+      { $sort: { createdAt: -1 } },
+      { $limit: 20 },
+    ]);
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
 // Get all posts of a user
 router.get("/all/:userId", async (req, res, next) => {
   try {
