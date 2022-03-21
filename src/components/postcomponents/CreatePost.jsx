@@ -40,11 +40,7 @@ export default function CreatePost() {
         image: user.response.image,
       })
     );
-    if (tag.current.value === "") {
-      formData.append("tags", "Others");
-    } else {
-      formData.append("tags", tag.current.value);
-    }
+    formData.append("tags", tag.current.value || "Others");
     axios
       .post(`${process.env.REACT_APP_TESTING_URL}/post/create`, formData, {
         headers: {

@@ -33,7 +33,7 @@ export default function UserTimeline() {
   function updateDetails() {
     setEditable(!isEditable);
     if (!isEditable) return;
-    console.log(bioRef.current);
+    if (bioRef.current.value === userDetails.bio) return;
     axios
       .patch(
         `${process.env.REACT_APP_TESTING_URL}/user/update/${params.id}`,
@@ -149,6 +149,7 @@ export default function UserTimeline() {
               <PostComponent
                 key={post.title}
                 postDetails={post}
+                setPostDetails={setPosts}
               ></PostComponent>
             );
           })}

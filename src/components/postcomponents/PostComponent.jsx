@@ -4,10 +4,11 @@ import { useAlert } from "react-alert";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function PostComponent({ postDetails }) {
+export default function PostComponent({ postDetails, setPostDetails }) {
   const alert = useAlert();
   const { user, isAuthenticated } = useContext(AuthContext);
   const [likeStatus, likeStatusChange] = useState(false);
+  postDetails.createdAt = new Date(postDetails.createdAt);
 
   function likeBlog() {
     if (likeStatus) return;
@@ -18,7 +19,7 @@ export default function PostComponent({ postDetails }) {
       )
       .then((res) => {
         likeStatusChange(true);
-        ++postDetails.likes;
+        //TODO : update post if user likes it.
       })
       .catch((e) => {
         alert.error(e.response.statusText);
@@ -62,8 +63,12 @@ export default function PostComponent({ postDetails }) {
               </div>
             </Link>
             <div className="div_top_rgt">
-              <span className="span_date">02 Jan 2014</span>
-              <span className="span_time">11:15am</span>
+              <span className="span_date">
+                {postDetails.createdAt.toDateString()}
+              </span>
+              <span className="span_time">
+                {postDetails.createdAt.toLocaleTimeString()}
+              </span>
             </div>
           </div>
           <div className="div_image">
@@ -98,10 +103,10 @@ export default function PostComponent({ postDetails }) {
                   <a
                     onClick={
                       likeStatus
-                        ? likeBlog
-                        : () => {
+                        ? () => {
                             alert.info("please login to like.");
                           }
+                        : likeBlog
                     }
                   >
                     <span className="btn_icon">

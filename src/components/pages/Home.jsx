@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import SideBar from "../basic/SideBar";
+import CategoryPosts from "../postcomponents/CategoryPosts";
 import CreatePost from "../postcomponents/CreatePost";
 import HomePosts from "../postcomponents/HomePosts";
 import SearchComponent from "../postcomponents/SearchComponent";
@@ -19,6 +20,7 @@ export default function Home() {
             <Route path="/post/:id" element={<SinglePost />} />
             <Route path="/create" element={<CreatePost />} />
             <Route path="/search/:searchTerm" element={<SearchComponent />} />
+            <Route path="/category/:tag" element={<CategoryPosts />} />
           </Routes>
         </div>
         <div className="clear"></div>
