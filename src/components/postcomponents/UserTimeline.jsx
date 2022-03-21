@@ -149,7 +149,6 @@ export default function UserTimeline() {
               <PostComponent
                 key={post.title}
                 postDetails={post}
-                setPostDetails={setPosts}
               ></PostComponent>
             );
           })}
