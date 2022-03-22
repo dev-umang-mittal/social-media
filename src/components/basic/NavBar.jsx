@@ -175,6 +175,7 @@ export default function NavBar() {
                 )}
               </div>
             </Link>
+            {user && <p>{user.response.username}</p>}
           </div>
         </div>
       </div>
