@@ -87,7 +87,22 @@ router.get("/like/:id", authorizeUser, async (req, res, next) => {
   try {
     const response = await posts.findOneAndUpdate(
       { _id: req.params.id },
-      { $inc: { likes: 1 } }
+      { $inc: { likes: 1 } },
+      { new: true }
+    );
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// Unlike a post [Authenticated]
+router.get("/unlike/:id", authorizeUser, async (req, res, next) => {
+  try {
+    const response = await posts.findOneAndUpdate(
+      { _id: req.params.id },
+      { $inc: { likes: -1 } },
+      { new: true }
     );
     res.status(200).json(response);
   } catch (e) {

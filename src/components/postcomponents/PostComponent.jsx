@@ -4,26 +4,43 @@ import { useAlert } from "react-alert";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
-export default function PostComponent({ postDetails, setPostDetails }) {
+export default function PostComponent(props) {
   const alert = useAlert();
   const { user, isAuthenticated } = useContext(AuthContext);
   const [likeStatus, likeStatusChange] = useState(false);
+  const [postDetails, setPostDetails] = useState(props.postDetails);
   postDetails.createdAt = new Date(postDetails.createdAt);
 
-  function likeBlog() {
-    if (likeStatus) return;
-    axios
-      .get(
-        `${process.env.REACT_APP_TESTING_URL}/post/like/${postDetails._id}`,
-        { headers: { Authorization: `Bearer ${user.accessToken}` } }
-      )
-      .then((res) => {
-        likeStatusChange(true);
-        //TODO : update post if user likes it.
-      })
-      .catch((e) => {
-        alert.error(e.response.statusText);
-      });
+  function toggleLikeBlog() {
+    if (likeStatus) {
+      //unlike
+      axios
+        .get(
+          `${process.env.REACT_APP_TESTING_URL}/post/unlike/${postDetails._id}`,
+          { headers: { Authorization: `Bearer ${user.accessToken}` } }
+        )
+        .then((res) => {
+          likeStatusChange(!likeStatus);
+          console.log(res.data);
+          setPostDetails(res.data);
+        })
+        .catch((e) => {
+          alert.error(e.response.statusText);
+        });
+    } else {
+      axios
+        .get(
+          `${process.env.REACT_APP_TESTING_URL}/post/like/${postDetails._id}`,
+          { headers: { Authorization: `Bearer ${user.accessToken}` } }
+        )
+        .then((res) => {
+          likeStatusChange(!likeStatus);
+          setPostDetails(res.data);
+        })
+        .catch((e) => {
+          alert.error(e.response.statusText);
+        });
+    }
   }
 
   function deleteBlog() {
@@ -100,22 +117,14 @@ export default function PostComponent({ postDetails, setPostDetails }) {
                   </a>
                 </li>
                 <li>
-                  <a
-                    onClick={
-                      likeStatus
-                        ? () => {
-                            alert.info("please login to like.");
-                          }
-                        : likeBlog
-                    }
-                  >
+                  <a onClick={toggleLikeBlog} style={{ cursor: "pointer" }}>
                     <span className="btn_icon">
                       <img
                         src={require("../../assets/images/icon_003.png")}
                         alt="share"
                       />
                     </span>
-                    {postDetails.likes} Likes
+                    {!likeStatus ? `${postDetails.likes} Likes` : "Liked"}
                   </a>
                 </li>
                 <li>
