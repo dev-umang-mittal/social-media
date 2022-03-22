@@ -1,5 +1,5 @@
 import validator from "validator";
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const userSchema = mongoose.Schema({
   name: {
@@ -41,34 +41,20 @@ const userSchema = mongoose.Schema({
   },
 });
 
-const personDetails = mongoose.Schema(
-  {
-    username: {
-      type: String,
-    },
-    name: {
-      type: String,
-    },
-    image: {
-      type: String,
-    },
-    id: {
-      type: mongoose.Types.ObjectId,
-    },
-  },
-  { _id: false }
-);
-
 const commentSchema = mongoose.Schema(
   {
-    commenter: personDetails,
+    commenter: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
     comment: {
       type: String,
       maxLength: [50, "Comment is too long"],
       trim: true,
     },
     commentedOnId: {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
+      ref: "posts",
     },
   },
   { timestamps: true }
@@ -76,7 +62,9 @@ const commentSchema = mongoose.Schema(
 
 const postSchema = mongoose.Schema(
   {
-    authorDetails: personDetails,
+    authorDetails: {
+      type: Schema.Types.ObjectId,
+    },
     title: {
       type: String,
       required: [true, "Title is required."],
