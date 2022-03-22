@@ -11,12 +11,12 @@ export default function SinglePost() {
   const [comments, setComments] = useState([]);
   const comment = useRef();
   const alert = useAlert();
-  //TODO: use the id to fetch a certain blog.
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_TESTING_URL}/post/${id}`)
       .then((res) => {
+        res.data.createdAt = new Date(res.data.createdAt);
         setPost(res.data);
         getComments(res.data._id);
       })
@@ -64,16 +64,25 @@ export default function SinglePost() {
           <div className="div_a">
             <div className="div_title">{post && post.title}</div>
             <div className="btm_rgt">
-              <div className="btm_arc">Cats</div>
+              <div className="btm_arc">{post && post.tags}</div>
             </div>
             <div className="div_top">
               <div className="div_top_lft">
-                {post && <img src={post.authorDetails.image} />}
+                {post && (
+                  <img
+                    style={{ borderRadius: 50 + "%", width: 40 + "px" }}
+                    src={post.authorDetails.image}
+                  />
+                )}
                 {post && post.authorDetails.name}
               </div>
               <div className="div_top_rgt">
-                <span className="span_date">02 Jan 2014</span>
-                <span className="span_time">11:15am</span>
+                <span className="span_date">
+                  {post && post.createdAt.toDateString()}
+                </span>
+                <span className="span_time">
+                  {post && post.createdAt.toLocaleTimeString()}
+                </span>
               </div>
             </div>
             <div className="div_image">
