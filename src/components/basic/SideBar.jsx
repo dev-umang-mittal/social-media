@@ -1,9 +1,19 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FeaturedPost from "../postcomponents/FeaturedPost";
-//TODO : Select Category from list
-//TODO : Got to post component when clicked the featured posts
+
 export default function SideBar() {
+  const [featuredPosts, setFeaturedPosts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_TESTING_URL}/post/featured`)
+      .then((res) => {
+        setFeaturedPosts(res.data);
+      });
+  }, []);
+
   return (
     <div className="content_rgt">
       <div className="rght_btn">
@@ -93,13 +103,9 @@ export default function SideBar() {
           Featured
         </div>
         <div className="sub_dwn">
-          <FeaturedPost
-            postDetails={{
-              title: "Hello world",
-              img: "https://picsum.photos/500",
-              tag: "cat",
-            }}
-          ></FeaturedPost>
+          {featuredPosts.map((post) => {
+            return <FeaturedPost postDetails={post}></FeaturedPost>;
+          })}
         </div>
       </div>
     </div>

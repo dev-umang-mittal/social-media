@@ -38,16 +38,6 @@ router.get("/timeline", async (req, res, next) => {
   }
 });
 
-// Get a post details
-router.get("/:id", async (req, res, next) => {
-  try {
-    const response = await posts.findById(req.params.id);
-    res.status(200).json(response);
-  } catch (e) {
-    next(e);
-  }
-});
-
 // Get post of a certain category
 router.get("/category/:tag", async (req, res, next) => {
   try {
@@ -75,6 +65,18 @@ router.get("/all/:userId", async (req, res, next) => {
         { $sort: { createdAt: -1 } },
         { $limit: 20 },
       ])
+      .exec();
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// Get Featured Posts
+router.get("/featured", async (req, res, next) => {
+  try {
+    const response = await posts
+      .aggregate([{ $sort: { likes: -1 } }, { $limit: 2 }])
       .exec();
     res.status(200).json(response);
   } catch (e) {
@@ -133,6 +135,16 @@ router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
     if (post?.authorDetails?.id.toString() !== req.userId.sub)
       res.sendStatus(403);
     const response = await posts.deleteOne({ _id: req.params.id });
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// Get a post details
+router.get("/:id", async (req, res, next) => {
+  try {
+    const response = await posts.findById(req.params.id);
     res.status(200).json(response);
   } catch (e) {
     next(e);
