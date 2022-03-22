@@ -38,21 +38,31 @@ export default function SinglePost() {
 
   function submitComment(id) {
     axios
-      .post(`${process.env.REACT_APP_TESTING_URL}/comment/create`, {
-        commentedOnId: id,
-        comment: comment.current.value,
-        commenter: {
-          name: user.response.name,
-          image: user.response.image,
-          id: user.response.id,
-          username: user.response.username,
+      .post(
+        `${process.env.REACT_APP_TESTING_URL}/comment/create`,
+        {
+          commentedOnId: id,
+          comment: comment.current.value,
+          commenter: {
+            name: user.response.name,
+            image: user.response.image,
+            id: user.response.id,
+            username: user.response.username,
+          },
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
       .then((res) => {
+        console.log(res);
         getComments(post._id);
         alert.success("Comment created successfully");
       })
       .catch((e) => {
+        console.dir(e);
         alert.error(e.response.statusText);
       });
   }
@@ -142,6 +152,22 @@ export default function SinglePost() {
         </div>
         <div className="contnt_3">
           <ul>
+            <li>
+              <div className="cmnt_div1">
+                <input
+                  type="text"
+                  placeholder="Enter your Comment"
+                  className="cmnt_bx1"
+                  ref={comment}
+                />
+                <input
+                  type="submit"
+                  className="sub_bttn1"
+                  defaultValue="Submit Comment"
+                  onClick={() => submitComment(id)}
+                />
+              </div>
+            </li>
             {comments.map((comment) => {
               return (
                 <li>
@@ -155,22 +181,6 @@ export default function SinglePost() {
                 </li>
               );
             })}
-            <li>
-              <div className="cmnt_div1">
-                <input
-                  type="text"
-                  defaultValue="Enter your Comment"
-                  className="cmnt_bx1"
-                  ref={comment}
-                />
-                <input
-                  type="submit"
-                  className="sub_bttn1"
-                  defaultValue="Submit Comment"
-                  onClick={() => submitComment(id)}
-                />
-              </div>
-            </li>
           </ul>
           <div className="view_div">
             <a href="#">View more</a>

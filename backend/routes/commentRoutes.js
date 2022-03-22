@@ -1,4 +1,4 @@
-import { comments } from "../models.js";
+import { comments, posts } from "../models.js";
 import express from "express";
 import { authorizeUser } from "../server.js";
 const router = express.Router();
@@ -12,6 +12,10 @@ router.post("/create", authorizeUser, async (req, res, next) => {
   });
   try {
     const response = await comment.save();
+    await posts.findOneAndUpdate(
+      { _id: req.body.commentedOnId },
+      { $inc: { comments: 1 } }
+    );
     res.status(200).json(response);
   } catch (e) {
     next(e);
