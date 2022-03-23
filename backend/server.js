@@ -54,6 +54,12 @@ app.get("/refresh/:token", (req, res, next) => {
     jwt.verify(req.params.token, process.env.JWT_SECRET, async (err, token) => {
       if (err) return res.sendStatus(403);
       response = await users.findById(token.sub);
+
+      if (!response) {
+        res.sendStatus(401);
+        return;
+      }
+
       const accessToken = jwt.sign(
         { sub: response._id },
         process.env.JWT_SECRET,
