@@ -1,5 +1,5 @@
 import validator from "validator";
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
   name: {
@@ -44,7 +44,7 @@ const userSchema = mongoose.Schema({
 const commentSchema = mongoose.Schema(
   {
     commenter: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "users",
     },
     comment: {
@@ -53,7 +53,7 @@ const commentSchema = mongoose.Schema(
       trim: true,
     },
     commentedOnId: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "posts",
     },
   },
@@ -63,7 +63,7 @@ const commentSchema = mongoose.Schema(
 const postSchema = mongoose.Schema(
   {
     authorDetails: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "users",
     },
     title: {

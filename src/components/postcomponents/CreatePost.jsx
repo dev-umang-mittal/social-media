@@ -31,15 +31,7 @@ export default function CreatePost() {
   function submitPost() {
     formData.append("title", title.current.value);
     formData.append("image", imgFile);
-    formData.append(
-      "authorDetails",
-      JSON.stringify({
-        username: user.response.username,
-        name: user.response.name,
-        id: user.response._id,
-        image: user.response.image,
-      })
-    );
+    formData.append("authorId", user.response._id);
     formData.append("tags", tag.current.value || "Others");
     axios
       .post(`${process.env.REACT_APP_TESTING_URL}/post/create`, formData, {

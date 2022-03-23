@@ -104,7 +104,9 @@ export default function SideBar() {
         </div>
         <div className="sub_dwn">
           {featuredPosts.map((post) => {
-            return <FeaturedPost postDetails={post}></FeaturedPost>;
+            return (
+              <FeaturedPost key={post.title} postDetails={post}></FeaturedPost>
+            );
           })}
         </div>
       </div>
