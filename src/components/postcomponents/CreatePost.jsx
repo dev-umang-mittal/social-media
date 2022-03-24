@@ -27,6 +27,10 @@ export default function CreatePost() {
   }
 
   function submitPost() {
+    if (!title.current.value || !imgFile) {
+      alert.error("Please fill in the details to post");
+      return;
+    }
     formData.append("title", title.current.value);
     formData.append("image", imgFile);
     formData.append("authorId", user.response._id);

@@ -9,9 +9,12 @@ export default function PostComponent(props) {
   const { user, isAuthenticated } = useContext(AuthContext);
   const [likeStatus, likeStatusChange] = useState(false);
   const [postDetails, setPostDetails] = useState(props.postDetails);
-  postDetails.createdAt = new Date(postDetails.createdAt);
 
   function toggleLikeBlog() {
+    if (!isAuthenticated) {
+      alert.error("You must be logged in to like a post");
+      return;
+    }
     if (likeStatus) {
       //unlike
       axios
@@ -20,8 +23,8 @@ export default function PostComponent(props) {
           { headers: { Authorization: `Bearer ${user.accessToken}` } }
         )
         .then((res) => {
+          console.log("response", res.data);
           likeStatusChange(!likeStatus);
-          console.log(res.data);
           setPostDetails(res.data);
         })
         .catch((e) => {
@@ -81,10 +84,10 @@ export default function PostComponent(props) {
             </Link>
             <div className="div_top_rgt">
               <span className="span_date">
-                {postDetails.createdAt.toDateString()}
+                {new Date(postDetails.createdAt).toDateString()}
               </span>
               <span className="span_time">
-                {postDetails.createdAt.toLocaleTimeString()}
+                {new Date(postDetails.createdAt).toLocaleTimeString()}
               </span>
             </div>
           </div>

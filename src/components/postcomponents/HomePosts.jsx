@@ -73,12 +73,13 @@ export default function HomePosts() {
                 </li>
               </ul>
             </div>
-            <div className="post_txt">4 New Post Updates</div>
+            <div className="post_txt">4 New Post Updates </div>
           </div>
         </div>
         {posts.map((post) => {
           return (
             <PostComponent key={post.title} postDetails={post}></PostComponent>
+            // <DemoComponent key={post.title} postDetails={post}></DemoComponent>
           );
         })}
       </div>

@@ -20,6 +20,7 @@ export default function UserTimeline() {
       .then((res) => {
         setUserDetails(res.data);
       });
+    getPosts();
   }
 
   function getPosts() {

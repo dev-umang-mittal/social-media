@@ -32,7 +32,7 @@ export default function SinglePost() {
         setComments(res.data);
       })
       .catch((e) => {
-        alert.error(e.response.statusText);
+        alert.error(JSON.stringify(e));
       });
   }
 
@@ -43,7 +43,7 @@ export default function SinglePost() {
         {
           commentedOnId: id,
           comment: comment.current.value,
-          commenter: user.response.id,
+          commenter: user.response._id,
         },
         {
           headers: {
@@ -52,7 +52,6 @@ export default function SinglePost() {
         }
       )
       .then((res) => {
-        console.log(res);
         getComments(post._id);
         alert.success("Comment created successfully");
       })
@@ -165,7 +164,7 @@ export default function SinglePost() {
             </li>
             {comments.map((comment) => {
               return (
-                <li>
+                <li key={comment._id}>
                   <div className="list_image">
                     <div className="image_sec">
                       <img src={comment.commenter.image} />
