@@ -43,12 +43,7 @@ export default function SinglePost() {
         {
           commentedOnId: id,
           comment: comment.current.value,
-          commenter: {
-            name: user.response.name,
-            image: user.response.image,
-            id: user.response.id,
-            username: user.response.username,
-          },
+          commenter: user.response.id,
         },
         {
           headers: {

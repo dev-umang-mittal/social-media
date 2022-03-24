@@ -40,7 +40,7 @@ router.get("/timeline", async (req, res, next) => {
             localField: "authorDetails",
             foreignField: "_id",
             as: "authorDetails",
-            // pipeline: [{ $project: { name: 1, username: 1, image: 1  } }],
+            pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
           },
         },
       ])

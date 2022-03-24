@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useAlert } from "react-alert";
 
-//TODO use useRef to update tag value when clicked.
-// Add title and image useRef.
 export default function CreatePost() {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useContext(AuthContext);
