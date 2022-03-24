@@ -110,9 +110,9 @@ export default function SignUp() {
                 injected humour, or randomised words which don't look even
                 slightly believable. If you are going to use a passage of Lorem
                 Ipsum, you need to be sure there isn't anything embarrassing
-                hidden in the middle of text.{" "}
+                hidden in the middle of text.
               </p>
-              <img src="images/img_9.png" alt="" />
+              <img src={require("../../assets/images/img_9.png")} alt="" />
             </div>
           </div>
         </div>

@@ -95,9 +95,6 @@ export default function CreatePost() {
                   className="cmnt_bx"
                   ref={tag}
                 />
-                <ul>
-                  <h4 className="tag_search_li">hello</h4>
-                </ul>
               </div>
             </li>
           </ul>

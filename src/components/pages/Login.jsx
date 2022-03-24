@@ -81,7 +81,7 @@ export default function Login() {
                     <input
                       defaultValue="Log In [Test]"
                       onClick={() => {
-                        login("umang@email.com", "password");
+                        login("username@email.com", "password");
                       }}
                     />
                     <Link to={"/forgot"}>Forgot Password</Link>
