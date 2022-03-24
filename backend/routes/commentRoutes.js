@@ -29,7 +29,6 @@ router.get("/blog/:id", async (req, res, next) => {
   try {
     const response = await comments
       .find({ commentedOnId: req.params.id })
-      .populate("commentedOnId")
       .populate("commenter");
     res.status(200).json(response);
   } catch (e) {

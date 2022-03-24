@@ -43,6 +43,7 @@ router.get("/timeline", async (req, res, next) => {
             pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
           },
         },
+        { $unwind: "$authorDetails" },
       ])
       .exec();
     res.status(200).json(response);
@@ -65,7 +66,9 @@ router.get("/category/:tag", async (req, res, next) => {
           foreignField: "_id",
           as: "authorDetails",
         },
+        pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
       },
+      { $unwind: "$authorDetails" },
     ]);
     res.status(200).json(response);
   } catch (e) {
@@ -91,8 +94,10 @@ router.get("/all/:userId", async (req, res, next) => {
             localField: "authorDetails",
             foreignField: "_id",
             as: "authorDetails",
+            pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
           },
         },
+        { $unwind: "$authorDetails" },
       ])
       .exec();
     res.status(200).json(response);
@@ -116,6 +121,7 @@ router.get("/featured", async (req, res, next) => {
             as: "authorDetails",
           },
         },
+        { $unwind: "$authorDetails" },
       ])
       .exec();
     res.status(200).json(response);
@@ -133,7 +139,7 @@ router.get("/like/:id", authorizeUser, async (req, res, next) => {
         { $inc: { likes: 1 } },
         { new: true }
       )
-      .populate("authorDetails")
+      .populate("authorDetails", "name image username")
       .exec();
     res.status(200).json(response);
   } catch (e) {
