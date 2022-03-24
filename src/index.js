@@ -6,9 +6,4 @@ import "./assets/css/bootstrap.css";
 import "./assets/css/bootstrap-responsive.css";
 import "./assets/css/style.css";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App />, document.getElementById("root"));
