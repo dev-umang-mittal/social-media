@@ -4,6 +4,7 @@ import { authorizeUser } from "../server.js";
 import upload from "../imageUploader.js";
 import mongoose from "mongoose";
 const router = express.Router();
+const postsPerPage = 2;
 
 // Create a post [Authenticated]
 router.post(
@@ -33,7 +34,8 @@ router.get("/timeline", async (req, res, next) => {
     const response = await posts
       .aggregate([
         { $sort: { createdAt: -1 } },
-        { $limit: 20 },
+        { $skip: Number(req.query.page) * postsPerPage },
+        { $limit: postsPerPage },
         {
           $lookup: {
             from: "users",
@@ -65,8 +67,8 @@ router.get("/category/:tag", async (req, res, next) => {
           localField: "authorDetails",
           foreignField: "_id",
           as: "authorDetails",
+          pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
         },
-        pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
       },
       { $unwind: "$authorDetails" },
     ]);
