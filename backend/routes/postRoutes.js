@@ -60,7 +60,8 @@ router.get("/category/:tag", async (req, res, next) => {
     const response = await posts.aggregate([
       { $match: { $text: { $search: req.params.tag } } },
       { $sort: { createdAt: -1 } },
-      { $limit: 20 },
+      { $skip: Number(req.query.page) * postsPerPage },
+      { $limit: postsPerPage },
       {
         $lookup: {
           from: "users",
@@ -89,7 +90,8 @@ router.get("/all/:userId", async (req, res, next) => {
           },
         },
         { $sort: { createdAt: -1 } },
-        { $limit: 20 },
+        { $skip: Number(req.query.page) * postsPerPage },
+        { $limit: postsPerPage },
         {
           $lookup: {
             from: "users",

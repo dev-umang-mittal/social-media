@@ -6,10 +6,12 @@ import PostComponent from "./PostComponent";
 export default function HomePosts() {
   const [posts, setPosts] = useState([]);
   const alert = useAlert();
+  const [pageNo, setPageNo] = useState(0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios
-      .get(`${process.env.REACT_APP_TESTING_URL}/post/timeline`)
+      .get(`${process.env.REACT_APP_TESTING_URL}/post/timeline?page=${pageNo}`)
       .then((res) => {
         if (res.data.length === 0)
           alert.info("No posts are availbale right now");
@@ -18,7 +20,7 @@ export default function HomePosts() {
       .catch((error) => {
         alert.error("Something went wrong. Try again later");
       });
-  }, []);
+  }, [pageNo]);
 
   return (
     <>
@@ -82,6 +84,22 @@ export default function HomePosts() {
             // <DemoComponent key={post.title} postDetails={post}></DemoComponent>
           );
         })}
+        <div>
+          <input
+            type="button"
+            value="Prev"
+            onClick={() => {
+              setPageNo((prev) => prev - 1);
+            }}
+          ></input>
+          <input
+            type="button"
+            value="Next"
+            onClick={() => {
+              setPageNo((prev) => prev + 1);
+            }}
+          ></input>
+        </div>
       </div>
     </>
   );

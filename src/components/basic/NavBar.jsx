@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect, useRef } from "react";
 import { useAlert } from "react-alert";
-import { Link, useNavigate, NavLink } from "react-router-dom";
+import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function NavBar() {
@@ -9,6 +9,7 @@ export default function NavBar() {
   const alert = useAlert();
   const navigate = useNavigate();
   const searchTerm = useRef();
+  const location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);

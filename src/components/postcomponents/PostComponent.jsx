@@ -72,7 +72,7 @@ export default function PostComponent(props) {
             <div className="btm_arc">{postDetails.tags}</div>
           </div>
           <div className="div_top">
-            <Link to={`/user/${postDetails.authorDetails.id}`}>
+            <Link to={`/user/${postDetails.authorDetails._id}`}>
               <div className="div_top_lft">
                 {/* <img src={require("../../assets/images/img_6.png")} /> */}
                 <img
