@@ -128,8 +128,14 @@ export default function NavBar() {
                 {
                   <NavLink
                     to="/home"
-                    className={(isActive) => {
-                      "active";
+                    style={({ isActive }) => {
+                      return {
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "bottom center",
+                        width: 12 + "px",
+                        height: 7 + "px",
+                        pointerEvents: isActive ? "none" : "auto",
+                      };
                     }}
                   >
                     Home
@@ -140,8 +146,13 @@ export default function NavBar() {
                 <li>
                   <NavLink
                     to="/signup"
-                    className={(isActive) => {
-                      "active";
+                    style={({ isActive }) => {
+                      return {
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "bottom center",
+                        width: 12 + "px",
+                        height: 7 + "px",
+                      };
                     }}
                   >
                     Signup
@@ -152,8 +163,13 @@ export default function NavBar() {
                 <li>
                   <NavLink
                     to="/login"
-                    className={(isActive) => {
-                      "active";
+                    style={({ isActive }) => {
+                      return {
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "bottom center",
+                        width: 12 + "px",
+                        height: 7 + "px",
+                      };
                     }}
                   >
                     Login
@@ -164,8 +180,13 @@ export default function NavBar() {
                 <li>
                   <NavLink
                     to={`/user/${user.response._id}`}
-                    className={(isActive) => {
-                      "active";
+                    style={({ isActive }) => {
+                      return {
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "bottom center",
+                        width: 12 + "px",
+                        height: 7 + "px",
+                      };
                     }}
                   >
                     Dashboard
