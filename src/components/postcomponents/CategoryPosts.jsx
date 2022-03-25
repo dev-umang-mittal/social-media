@@ -1,19 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAlert } from "react-alert";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import PostComponent from "./PostComponent";
 
 export default function CategoryPosts() {
   const alert = useAlert();
   const [posts, setPosts] = useState();
   const params = useParams();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
   const [pageNo, setPageNo] = useState(0);
 
   useEffect(() => {
     axios
       .get(
-        `${process.env.REACT_APP_TESTING_URL}/post/category/${params.tag}?page=${pageNo}`
+        `${process.env.REACT_APP_TESTING_URL}/post/category/${
+          params.tag
+        }?page=${query.get("page")}`
       )
       .then((res) => {
         setPosts(res.data);
