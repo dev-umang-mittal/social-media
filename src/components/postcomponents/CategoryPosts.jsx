@@ -8,17 +8,20 @@ export default function CategoryPosts() {
   const alert = useAlert();
   const [posts, setPosts] = useState();
   const params = useParams();
+  const [pageNo, setPageNo] = useState(0);
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_TESTING_URL}/post/category/${params.tag}`)
+      .get(
+        `${process.env.REACT_APP_TESTING_URL}/post/category/${params.tag}?page=${pageNo}`
+      )
       .then((res) => {
         setPosts(res.data);
       })
       .catch((e) => {
         alert.error(JSON.stringify(e));
       });
-  }, [params.tag]);
+  }, [params.tag, pageNo]);
 
   return (
     <>
@@ -35,7 +38,22 @@ export default function CategoryPosts() {
             );
           })}
       </div>
-
+      <div>
+        <input
+          type="button"
+          value="Prev"
+          onClick={() => {
+            setPageNo((prev) => prev - 1);
+          }}
+        ></input>
+        <input
+          type="button"
+          value="Next"
+          onClick={() => {
+            setPageNo((prev) => prev + 1);
+          }}
+        ></input>
+      </div>
       <div className="clear" />
     </>
   );
