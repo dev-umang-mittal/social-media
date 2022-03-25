@@ -8,18 +8,20 @@ export default function SearchComponent() {
   const params = useParams();
   const [posts, setPosts] = useState([]);
   const alert = useAlert();
+  const [pageNo, setPageNo] = useState(0);
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_TESTING_URL}/search/${params.searchTerm}`)
+      .get(
+        `${process.env.REACT_APP_TESTING_URL}/search/${params.searchTerm}?page=${pageNo}`
+      )
       .then((res) => {
-        console.log(res.data);
         setPosts(res.data);
       })
       .catch((e) => {
         alert.error(e.response.statusText);
       });
-  }, [params]);
+  }, [params, pageNo]);
 
   return (
     <React.Fragment>
@@ -36,6 +38,22 @@ export default function SearchComponent() {
         ) : (
           <h3>Nothind found regarding your search term.</h3>
         )}
+        <div>
+          <input
+            type="button"
+            value="Prev"
+            onClick={() => {
+              setPageNo((prev) => prev - 1);
+            }}
+          ></input>
+          <input
+            type="button"
+            value="Next"
+            onClick={() => {
+              setPageNo((prev) => prev + 1);
+            }}
+          ></input>
+        </div>
       </div>
 
       <div className="clear" />
