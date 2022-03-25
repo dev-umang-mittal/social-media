@@ -72,6 +72,27 @@ app.get("/refresh/:token", (req, res, next) => {
   }
 });
 
+app.get("/alltags", async (req, res, next) => {
+  try {
+    const response = await posts
+      .aggregate([
+        {
+          $group: {
+            _id: { tags: "$tags" },
+            count: { $sum: 1 },
+            image: { $first: "$image" },
+          },
+        },
+        { $sort: { count: -1 } },
+        { $limit: 5 },
+      ])
+      .exec();
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
 // Search blogs
 app.get("/search/:term", async (req, res, next) => {
   try {
