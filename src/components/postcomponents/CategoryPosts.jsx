@@ -42,6 +42,7 @@ export default function CategoryPosts() {
             );
           })}
       </div>
+      <div className="clear" />
       <div>
         <input
           type="button"
@@ -58,7 +59,6 @@ export default function CategoryPosts() {
           }}
         ></input>
       </div>
-      <div className="clear" />
     </>
   );
 }

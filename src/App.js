@@ -11,6 +11,7 @@ import { AuthState } from "./context/AuthContext";
 import { Navigate } from "react-router-dom";
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
+import ResetPassword from "./components/pages/ResetPassword";
 
 const options = {
   timeout: 5000,
@@ -30,6 +31,7 @@ export default class App extends Component {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/forgot" element={<Forgot />} />
+                <Route path="/reset" element={<ResetPassword />} />
                 <Route path="/*" element={<Home />} />
               </Routes>
               <Footer />

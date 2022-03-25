@@ -187,9 +187,6 @@ router.patch("/update/:id", authorizeUser, async (req, res, next) => {
 // Delete a user [Authnenticated]
 router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   try {
-    const post = await posts.findById(req.params.id);
-    if (post?.authorDetails?.id.toString() !== req.userId.sub)
-      res.sendStatus(403);
     const response = await posts.deleteOne({ _id: req.params.id });
     res.status(200).json(response);
   } catch (e) {

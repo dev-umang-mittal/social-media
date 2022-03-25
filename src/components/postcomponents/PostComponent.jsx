@@ -46,21 +46,6 @@ export default function PostComponent(props) {
     }
   }
 
-  function deleteBlog() {
-    if (user.response._id !== postDetails.authorDetails.id) return;
-    axios
-      .delete(
-        `${process.env.REACT_APP_TESTING_URL}/post/delete/${postDetails._id}`,
-        { headers: { Authorization: `Bearer ${user.accessToken}` } }
-      )
-      .then((res) => {
-        alert.success("Post Deleted Successfully");
-      })
-      .catch((e) => {
-        alert.error(e.response.statusText);
-      });
-  }
-
   return (
     <>
       <div className="contnt_2">
@@ -141,14 +126,6 @@ export default function PostComponent(props) {
                     {postDetails.comments} Comments
                   </Link>
                 </li>
-                {isAuthenticated &&
-                  user.response._id === postDetails.authorDetails.id && (
-                    <li onClick={deleteBlog}>
-                      <Link to={`/user/${postDetails.authorDetails.id}`}>
-                        Delete
-                      </Link>
-                    </li>
-                  )}
               </ul>
             </div>
           </div>

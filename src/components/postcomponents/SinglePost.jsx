@@ -1,26 +1,31 @@
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useAlert } from "react-alert";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function SinglePost() {
-  const { user } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const params = useParams();
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
   const comment = useRef();
   const alert = useAlert();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_TESTING_URL}/post/${params.id}`)
       .then((res) => {
+        if (!res.data) {
+          navigate("/");
+        }
         res.data.createdAt = new Date(res.data.createdAt);
         setPost(res.data);
         getComments(res.data._id);
       })
       .catch((e) => {
+        console.log(e);
         alert.error(e.response.statusText);
       });
   }, [params]);
@@ -57,6 +62,21 @@ export default function SinglePost() {
       })
       .catch((e) => {
         console.dir(e);
+        alert.error(e.response.statusText);
+      });
+  }
+
+  function deleteBlog() {
+    if (user.response._id !== post.authorDetails._id) return;
+    axios
+      .delete(`${process.env.REACT_APP_TESTING_URL}/post/delete/${post._id}`, {
+        headers: { Authorization: `Bearer ${user.accessToken}` },
+      })
+      .then((res) => {
+        alert.success("Post Deleted Successfully");
+        navigate("/");
+      })
+      .catch((e) => {
         alert.error(e.response.statusText);
       });
   }
@@ -139,6 +159,11 @@ export default function SinglePost() {
                       {post && post.comments} Comments
                     </a>
                   </li>
+                  {isAuthenticated &&
+                    post &&
+                    user.response._id === post.authorDetails._id && (
+                      <li onClick={deleteBlog}>Delete</li>
+                    )}
                 </ul>
               </div>
             </div>
