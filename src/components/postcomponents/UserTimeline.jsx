@@ -13,6 +13,7 @@ export default function UserTimeline() {
   const [isEditable, setEditable] = useState(false);
   const bioRef = useRef();
   const alert = useAlert();
+  const [pageNo, setPageNo] = useState(0);
 
   function getUser() {
     axios
@@ -20,12 +21,13 @@ export default function UserTimeline() {
       .then((res) => {
         setUserDetails(res.data);
       });
-    getPosts();
   }
 
   function getPosts() {
     axios
-      .get(`${process.env.REACT_APP_TESTING_URL}/post/all/${params.id}`)
+      .get(
+        `${process.env.REACT_APP_TESTING_URL}/post/all/${params.id}?page=${pageNo}`
+      )
       .then((res) => {
         setPosts(res.data);
       });
@@ -65,7 +67,7 @@ export default function UserTimeline() {
     } else {
       getUser();
     }
-  }, []);
+  }, [pageNo]);
 
   return (
     <React.Fragment>
@@ -144,6 +146,7 @@ export default function UserTimeline() {
             </div>
           </div>
         </div>
+        {posts && posts.length === 0 && "Your Posts will be visible here."}
         {posts &&
           posts.map((post) => {
             return (
@@ -154,7 +157,22 @@ export default function UserTimeline() {
             );
           })}
       </div>
-
+      <div>
+        <input
+          type="button"
+          value="Prev"
+          onClick={() => {
+            setPageNo((prev) => prev - 1);
+          }}
+        ></input>
+        <input
+          type="button"
+          value="Next"
+          onClick={() => {
+            setPageNo((prev) => prev + 1);
+          }}
+        ></input>
+      </div>
       <div className="clear" />
     </React.Fragment>
   );
