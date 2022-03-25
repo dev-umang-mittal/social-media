@@ -1,7 +1,14 @@
 import axios from "axios";
 import React, { useContext, useEffect, useRef } from "react";
 import { useAlert } from "react-alert";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  NavLink,
+  withRouter,
+  useLocation,
+} from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function NavBar() {
@@ -9,6 +16,11 @@ export default function NavBar() {
   const alert = useAlert();
   const navigate = useNavigate();
   const searchTerm = useRef();
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -120,29 +132,51 @@ export default function NavBar() {
           <div className="navigatn">
             <ul>
               <li>
-                <Link to={"/"}>
-                  <div>Home</div>
-                </Link>
+                {
+                  <NavLink
+                    to="/home"
+                    className={(isActive) => {
+                      "active";
+                    }}
+                  >
+                    Home
+                  </NavLink>
+                }
               </li>
               {!user && (
                 <li>
-                  <Link to={"/signup"}>
-                    <div>Signup</div>
-                  </Link>
+                  <NavLink
+                    to="/signup"
+                    className={(isActive) => {
+                      "active";
+                    }}
+                  >
+                    Signup
+                  </NavLink>
                 </li>
               )}
               {!user && (
                 <li>
-                  <Link to={"/login"}>
-                    <div>Login</div>
-                  </Link>
+                  <NavLink
+                    to="/login"
+                    className={(isActive) => {
+                      "active";
+                    }}
+                  >
+                    Login
+                  </NavLink>
                 </li>
               )}
               {user && (
                 <li>
-                  <Link to={`/user/${user.response._id}`}>
-                    <div>Dashboard</div>
-                  </Link>
+                  <NavLink
+                    to={`/user/${user.response._id}`}
+                    className={(isActive) => {
+                      "active";
+                    }}
+                  >
+                    Dashboard
+                  </NavLink>
                 </li>
               )}
               {user && (
