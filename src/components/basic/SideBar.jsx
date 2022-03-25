@@ -5,6 +5,7 @@ import FeaturedPost from "../postcomponents/FeaturedPost";
 
 export default function SideBar() {
   const [featuredPosts, setFeaturedPosts] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     axios
@@ -12,6 +13,9 @@ export default function SideBar() {
       .then((res) => {
         setFeaturedPosts(res.data);
       });
+    axios.get(`${process.env.REACT_APP_TESTING_URL}/alltags`).then((res) => {
+      setTags(res.data);
+    });
   }, []);
 
   return (
@@ -36,65 +40,26 @@ export default function SideBar() {
       </div>
       <div className="rght_cate">
         <div className="rght_cate_hd" id="rght_cat_bg">
-          Categories
+          Top Trending Categories
         </div>
         <div className="rght_list">
           <ul>
-            <li>
-              <Link to={"/category/cats"}>
-                <span className="list_icon">
-                  <img
-                    src={require("../../assets/images/icon_01.png")}
-                    alt="up"
-                  />
-                </span>
-                CATS
-              </Link>
-            </li>
-            <li>
-              <Link to={"/category/dogs"}>
-                <span className="list_icon">
-                  <img
-                    src={require("../../assets/images/icon_02.png")}
-                    alt="up"
-                  />
-                </span>
-                Dogs
-              </Link>
-            </li>
-            <li>
-              <Link to={"/category/birds"}>
-                <span className="list_icon">
-                  <img
-                    src={require("../../assets/images/icon_03.png")}
-                    alt="up"
-                  />
-                </span>
-                Birds
-              </Link>
-            </li>
-            <li>
-              <Link to={"/category/rabbit"}>
-                <span className="list_icon">
-                  <img
-                    src={require("../../assets/images/icon_04.png")}
-                    alt="up"
-                  />
-                </span>
-                Rabbit
-              </Link>
-            </li>
-            <li>
-              <Link to={"/category/others"}>
-                <span className="list_icon">
-                  <img
-                    src={require("../../assets/images/icon_05.png")}
-                    alt="up"
-                  />
-                </span>
-                Others
-              </Link>
-            </li>
+            {tags.map((tag) => {
+              return (
+                <li key={tag._id.tags}>
+                  <Link to={`/category/${tag._id.tags}?page=0`}>
+                    <span className="list_icon">
+                      <img
+                        src={tag.image}
+                        style={{ width: 100 + "px" }}
+                        alt="tag"
+                      />
+                    </span>
+                    {tag._id.tags}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>
