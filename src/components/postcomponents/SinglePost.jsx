@@ -6,7 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function SinglePost() {
   const { user } = useContext(AuthContext);
-  const { id } = useParams();
+  const params = useParams();
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
   const comment = useRef();
@@ -14,7 +14,7 @@ export default function SinglePost() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_TESTING_URL}/post/${id}`)
+      .get(`${process.env.REACT_APP_TESTING_URL}/post/${params.id}`)
       .then((res) => {
         res.data.createdAt = new Date(res.data.createdAt);
         setPost(res.data);
@@ -23,7 +23,7 @@ export default function SinglePost() {
       .catch((e) => {
         alert.error(e.response.statusText);
       });
-  }, []);
+  }, [params]);
 
   function getComments(id) {
     axios
@@ -158,7 +158,7 @@ export default function SinglePost() {
                   type="submit"
                   className="sub_bttn1"
                   defaultValue="Submit Comment"
-                  onClick={() => submitComment(id)}
+                  onClick={() => submitComment(params.id)}
                 />
               </div>
             </li>
