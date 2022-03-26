@@ -43,7 +43,6 @@ export default function CreatePost() {
         },
       })
       .then((res) => {
-        console.log(res);
         alert.success("post created successfully");
         navigate(`/user/${user.response._id}`);
       })

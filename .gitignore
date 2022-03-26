@@ -6,6 +6,7 @@
 /.pnp
 .pnp.js
 .env
+/src/components/postcomponents/demo.js
 
 # testing
 /coverage

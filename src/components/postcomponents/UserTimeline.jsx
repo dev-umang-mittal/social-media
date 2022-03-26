@@ -44,6 +44,7 @@ export default function UserTimeline() {
         { headers: { Authorization: `Bearer ${user.accessToken}` } }
       )
       .then((res) => {
+        setUserDetails(res.data);
         alert.success("Update Successfully");
       })
       .catch((e) => {
@@ -157,6 +158,7 @@ export default function UserTimeline() {
             );
           })}
       </div>
+      <div className="clear" />
       <div>
         <input
           type="button"
@@ -173,7 +175,6 @@ export default function UserTimeline() {
           }}
         ></input>
       </div>
-      <div className="clear" />
     </React.Fragment>
   );
 }
