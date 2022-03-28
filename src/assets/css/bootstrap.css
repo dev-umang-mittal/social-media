@@ -6513,14 +6513,12 @@ a.badge:focus {
   margin-right: 0%;
 }
 .navigatn ul li a:hover {
-  background-image: url(../images/arw.png);
   background-repeat: no-repeat;
   background-position: bottom center;
   width: 12px;
   height: 7px;
 }
 .navigatn ul li a.active {
-  background-image: url(../images/arw.png);
   background-repeat: no-repeat;
   background-position: bottom center;
   width: 12px;
@@ -6534,7 +6532,6 @@ a.badge:focus {
 }
 .flag_div {
   float: left;
-  background-image: url(../images/arw.png);
   background-position: right;
   background-repeat: no-repeat;
   margin-top: 12px;
@@ -6596,7 +6593,6 @@ a.badge:focus {
 }
 .info_div1 {
   float: right;
-  background-image: url(../images/arw.png);
   width: 37%;
   color: #fff;
   margin-top: 13%;
@@ -6713,7 +6709,6 @@ a.badge:focus {
   font-size: 13px;
 }
 .post_list ul li:hover {
-  background-image: url(../images/arw.png);
   background-position: bottom center;
 }
 .list_img {
