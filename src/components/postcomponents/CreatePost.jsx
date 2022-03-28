@@ -52,13 +52,6 @@ export default function CreatePost() {
       });
   }
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-      return;
-    }
-  }, []);
-
   return (
     <>
       <div className="content_lft">

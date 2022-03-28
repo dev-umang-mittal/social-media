@@ -86,11 +86,14 @@ export default function SignUp() {
                       type="text"
                       placeholder="Enter your name"
                       ref={name}
+                      onKeyDown={(e) => {
+                        if (e.code === "Enter") handleSubmit();
+                      }}
                     />
                   </li>
                   <li>
                     <input
-                      type="submit"
+                      type="button"
                       defaultValue="Register"
                       onClick={handleSubmit}
                     />

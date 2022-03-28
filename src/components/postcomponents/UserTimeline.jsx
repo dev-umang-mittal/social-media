@@ -6,7 +6,7 @@ import PostComponent from "./PostComponent";
 import { useAlert } from "react-alert";
 
 export default function UserTimeline() {
-  const { user, isAuthenticated } = useContext(AuthContext);
+  const { user, isAuthenticated, setUser } = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState();
   const params = useParams();
   const [posts, setPosts] = useState();
@@ -14,6 +14,8 @@ export default function UserTimeline() {
   const bioRef = useRef();
   const alert = useAlert();
   const [pageNo, setPageNo] = useState(0);
+  const inputFile = useRef(null);
+  const [imgFile, setImgFile] = useState();
 
   function getUser() {
     axios
@@ -56,6 +58,35 @@ export default function UserTimeline() {
       });
   }
 
+  function fileChanged(e) {
+    setImgFile(e.target.files[0]);
+  }
+
+  const uploadImage = () => {
+    if (!imgFile) return;
+    const formData = new FormData();
+    formData.append("image", imgFile);
+    axios
+      .patch(
+        `${process.env.REACT_APP_TESTING_URL}/user/image/${userDetails._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        setUserDetails(res.data);
+      });
+  };
+
+  useEffect(uploadImage, [imgFile]);
+
+  const openFileDialog = () => {
+    inputFile.current.click();
+  };
+
   useEffect(() => {
     getPosts();
     if (isAuthenticated) {
@@ -77,9 +108,15 @@ export default function UserTimeline() {
           <div className="timeline_div">
             <div className="timeline_div1">
               <div className="profile_pic">
+                <input
+                  type="file"
+                  hidden
+                  onChange={fileChanged}
+                  ref={inputFile}
+                ></input>
                 <img src={userDetails && userDetails.image} />
                 <div className="profile_text">
-                  <a href="#">Change Profile Pic</a>
+                  <a onClick={openFileDialog}>Change Profile Pic</a>
                 </div>
               </div>
               <div className="profile_info">

@@ -68,11 +68,15 @@ export default function Login() {
                       type="password"
                       placeholder="Enter your password"
                       ref={password}
+                      onKeyDown={(e) => {
+                        if (e.code === "Enter")
+                          login(email.current.value, password.current.value);
+                      }}
                     />
                   </li>
                   <li>
                     <input
-                      type="submit"
+                      type="button"
                       defaultValue="Log In"
                       onClick={() => {
                         login(email.current.value, password.current.value);
