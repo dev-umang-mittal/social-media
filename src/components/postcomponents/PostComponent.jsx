@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { FacebookShareButton } from "react-share";
 
 export default function PostComponent(props) {
   const alert = useAlert();
@@ -90,7 +91,12 @@ export default function PostComponent(props) {
                         alt="share"
                       />
                     </span>
-                    Share
+                    <FacebookShareButton
+                      quote="I found this amazing post"
+                      hashtag="petsocial"
+                      children="Share on Facebook"
+                      url={`${process.env.REACT_APP_TESTING_URL}/post/${postDetails._id}`}
+                    ></FacebookShareButton>
                   </a>
                 </li>
                 <li>
