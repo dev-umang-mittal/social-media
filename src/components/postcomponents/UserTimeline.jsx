@@ -164,16 +164,21 @@ export default function UserTimeline() {
           type="button"
           value="Prev"
           onClick={() => {
-            setPageNo((prev) => prev - 1);
+            setPageNo((prev) => {
+              if (prev > 0) return prev - 1;
+              else return prev;
+            });
           }}
         ></input>
-        <input
-          type="button"
-          value="Next"
-          onClick={() => {
-            setPageNo((prev) => prev + 1);
-          }}
-        ></input>
+        {posts && posts.length > 0 && (
+          <input
+            type="button"
+            value="Next"
+            onClick={() => {
+              setPageNo((prev) => prev + 1);
+            }}
+          ></input>
+        )}
       </div>
     </React.Fragment>
   );
