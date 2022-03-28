@@ -1,7 +1,10 @@
-import { users } from "../models.js";
+import { posts, users } from "../models.js";
 import express from "express";
 import jwt from "jsonwebtoken";
 import { authorizeUser } from "../server.js";
+import { Auth } from "two-step-auth";
+import md5 from "md5";
+import upload from "../imageUploader.js";
 const router = express.Router();
 
 // Get a user details
@@ -73,12 +76,70 @@ router.patch("/update/:id", authorizeUser, async (req, res, next) => {
     }
     const response = await users.findOneAndUpdate(
       { _id: req.params.id },
-      req.body
+      req.body,
+      { new: true }
     );
     res.json(response);
   } catch (e) {
     next(e);
   }
+});
+
+// Update user details [Authnenticated]
+router.patch("/image/:id", upload.single("image"), async (req, res, next) => {
+  try {
+    console.log(req.file);
+    const response = await users.findOneAndUpdate(
+      { _id: req.params.id },
+      { image: "http://localhost:8080/" + req.file.path.slice(7) },
+      { new: true }
+    );
+    res.json(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// Forgot Password Route
+router.get("/forgot/:email", async (req, res, next) => {
+  try {
+    const responseM = await users.findOne({ email: req.params.email });
+    if (responseM) {
+      const response = await Auth(req.params.email, "PetSocial PPL");
+      console.log(response.OTP);
+      const token = jwt.sign(
+        { sub: response.OTP, email: req.params.email },
+        process.env.PASSWORD_SECRET,
+        { expiresIn: "5m" }
+      );
+      res.send({ token });
+    } else {
+      res.send(null);
+    }
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post("/password/:token", async (req, res, next) => {
+  jwt.verify(
+    req.params.token,
+    process.env.PASSWORD_SECRET,
+    async (err, resp) => {
+      if (err) return res.sendStatus(403);
+      if (resp.sub === Number(req.body.otp)) {
+        try {
+          const response = await users.findOneAndUpdate(
+            { email: resp.email },
+            { password: req.body.password }
+          );
+          res.sendStatus(200);
+        } catch (e) {
+          next(e);
+        }
+      }
+    }
+  );
 });
 
 // Delete a user [Authnenticated]
