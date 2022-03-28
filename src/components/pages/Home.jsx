@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "../../protectedRoute";
 import SideBar from "../basic/SideBar";
 import CategoryPosts from "../postcomponents/CategoryPosts";
 import CreatePost from "../postcomponents/CreatePost";
@@ -18,7 +19,15 @@ export default function Home() {
             <Route path="/home" element={<HomePosts />} />
             <Route path="/user/:id" element={<UserTimeline />} />
             <Route path="/post/:id" element={<SinglePost />} />
-            <Route path="/create" element={<CreatePost />} />
+            <Route
+              path="/create"
+              element={
+                <ProtectedRoute>
+                  <CreatePost />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="/search/:searchTerm" element={<SearchComponent />} />
             <Route path="/category/:tag" element={<CategoryPosts />} />
           </Routes>

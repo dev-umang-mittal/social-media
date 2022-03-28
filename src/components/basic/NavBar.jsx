@@ -202,9 +202,6 @@ export default function NavBar() {
           </div>
         </div>
         <div className="header_rgt">
-          <div className="flag_div">
-            <img src={require("../../assets/images/flag.png")} />
-          </div>
           <input
             type="text"
             ref={searchTerm}
@@ -222,8 +219,10 @@ export default function NavBar() {
                   />
                 )}
               </div>
+              {user && (
+                <div className="info_div1">{user.response.username}</div>
+              )}
             </Link>
-            {user && <p>{user.response.username}</p>}
           </div>
         </div>
       </div>
