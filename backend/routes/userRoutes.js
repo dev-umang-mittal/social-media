@@ -137,6 +137,8 @@ router.post("/password/:token", async (req, res, next) => {
         } catch (e) {
           next(e);
         }
+      } else {
+        res.sendStatus(403);
       }
     }
   );

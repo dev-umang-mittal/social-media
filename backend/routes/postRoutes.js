@@ -59,9 +59,6 @@ router.get("/category/:tag", async (req, res, next) => {
   try {
     const response = await posts.aggregate([
       { $match: { $text: { $search: req.params.tag } } },
-      { $sort: { createdAt: -1 } },
-      { $skip: Number(req.query.page) * postsPerPage },
-      { $limit: postsPerPage },
       {
         $lookup: {
           from: "users",
