@@ -1,6 +1,29 @@
-import React from "react";
+import axios from "axios";
+import React, { useRef, useState } from "react";
+import { useAlert } from "react-alert";
+import { useNavigate } from "react-router-dom";
 
 export default function Forgot() {
+  const email = useRef();
+  const navigate = useNavigate();
+  const alert = useAlert();
+
+  const sendEmail = () => {
+    axios
+      .get(
+        `${process.env.REACT_APP_TESTING_URL}/user/forgot/${email.current.value}`
+      )
+      .then((res) => {
+        if (res.data) {
+          sessionStorage.setItem("token", res.data.token);
+          alert.success("Otp is sent on registered email id");
+          navigate("/reset");
+        } else {
+          alert.error("Email is not found");
+        }
+      });
+  };
+
   return (
     <>
       <div className="container">
@@ -11,10 +34,14 @@ export default function Forgot() {
               <ul>
                 <li>
                   <span>Enter E-mail ID</span>
-                  <input type="text" placeholder="User@gmail.com" />
+                  <input type="text" ref={email} placeholder="User@gmail.com" />
                 </li>
                 <li>
-                  <input type="submit" defaultValue="Submit" />
+                  <input
+                    type="button"
+                    onClick={sendEmail}
+                    defaultValue="Submit"
+                  />
                 </li>
               </ul>
             </div>

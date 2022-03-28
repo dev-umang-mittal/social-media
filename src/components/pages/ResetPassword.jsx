@@ -1,16 +1,50 @@
-import React, { useState } from "react";
+import axios from "axios";
+import md5 from "md5";
+import React, { useEffect, useRef, useState } from "react";
+import { useAlert } from "react-alert";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword() {
-  const [password, setPassword] = useState();
+  const password = useRef();
+  const otp = useRef();
+  const confirmPass = useRef();
+  const alert = useAlert();
+  const navigate = useNavigate();
+  const [token, setToken] = useState(sessionStorage.getItem("token"));
 
-  function onChangePassword(e) {
-    setPassword(e.target.value.trim());
-  }
-
-  function onChangeConfirmPassword(e) {
-    if (e.target.value === password && password && password === "") {
+  useEffect(() => {
+    setToken(sessionStorage.getItem("token"));
+    if (!token) {
+      alert.error("Link Expired");
+      navigate("/");
     }
-  }
+  }, []);
+
+  const submitPassword = () => {
+    if (
+      confirmPass.current.value !== password.current.value ||
+      password.current.value === ""
+    ) {
+      alert.error("password don't match");
+      return;
+    }
+    axios
+      .post(`${process.env.REACT_APP_TESTING_URL}/user/password/${token}`, {
+        password: md5(password.current.value),
+        otp: otp.current.value,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 200) {
+          alert.success("password changed successfully");
+          navigate("/login");
+        }
+      })
+      .catch((e) => {
+        alert.error(e.response.statusText);
+        navigate("/");
+      });
+  };
 
   return (
     <>
@@ -21,23 +55,31 @@ export default function ResetPassword() {
               <h1>Reset Password</h1>
               <ul>
                 <li>
+                  <span>EnterOTP sent on your registered Email</span>
+                  <input type="text" placeholder="Enter your OTP" ref={otp} />
+                </li>
+                <li>
                   <span>Enter New Password</span>
                   <input
-                    type="text"
+                    type="password"
                     placeholder="Enter your new password"
-                    onChange={onChangePassword}
+                    ref={password}
                   />
                 </li>
                 <li>
                   <span>Confirm Password</span>
                   <input
-                    type="text"
+                    type="password"
                     placeholder="Enter your password again"
-                    onChange={onChangeConfirmPassword}
+                    ref={confirmPass}
                   />
                 </li>
                 <li>
-                  <input type="submit" value="Submit" />
+                  <input
+                    type="button"
+                    onClick={submitPassword}
+                    value="Submit"
+                  />
                 </li>
               </ul>
             </div>
