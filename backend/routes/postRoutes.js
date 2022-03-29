@@ -222,7 +222,6 @@ router.get("/", async (req, res, next) => {
       },
       { $unwind: "$authorDetails" },
     ]);
-
     res.send(response);
   } catch (e) {
     next(e);
