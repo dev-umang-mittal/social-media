@@ -13,13 +13,17 @@ export default function UserTimeline() {
   const [isEditable, setEditable] = useState(false);
   const bioRef = useRef();
   const alert = useAlert();
-  const [pageNo, setPageNo] = useState(0);
   const inputFile = useRef(null);
   const [imgFile, setImgFile] = useState();
+  const [filter, setFilter] = useState({
+    userId: params.id,
+    limit: 4,
+    skip: 0,
+  });
 
   function getUser() {
     axios
-      .get(`${process.env.REACT_APP_TESTING_URL}/user/${params.id}`)
+      .get(`${process.env.REACT_APP_TESTING_URL}/user/${filter.userId}`)
       .then((res) => {
         setUserDetails(res.data);
       });
@@ -28,7 +32,7 @@ export default function UserTimeline() {
   function getPosts() {
     axios
       .get(
-        `${process.env.REACT_APP_TESTING_URL}/post/all/${params.id}?page=${pageNo}`
+        `${process.env.REACT_APP_TESTING_URL}/post?userId=${filter.userId}&skip=${filter.skip}&limit=${filter.limit}`
       )
       .then((res) => {
         setPosts(res.data);
@@ -99,7 +103,7 @@ export default function UserTimeline() {
     } else {
       getUser();
     }
-  }, [pageNo]);
+  }, [filter]);
 
   return (
     <React.Fragment>
@@ -201,18 +205,21 @@ export default function UserTimeline() {
           type="button"
           value="Prev"
           onClick={() => {
-            setPageNo((prev) => {
-              if (prev > 0) return prev - 1;
+            setFilter((prev) => {
+              if (prev.skip > 0)
+                return { ...prev, skip: prev.skip - prev.limit };
               else return prev;
             });
           }}
         ></input>
-        {posts && posts.length > 0 && (
+        {posts.length > 0 && (
           <input
             type="button"
             value="Next"
             onClick={() => {
-              setPageNo((prev) => prev + 1);
+              setFilter((prev) => {
+                return { ...prev, skip: prev.skip + prev.limit };
+              });
             }}
           ></input>
         )}
