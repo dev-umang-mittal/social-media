@@ -199,6 +199,8 @@ router.get("/", async (req, res, next) => {
       pipeline.push({
         authorDetails: mongoose.Types.ObjectId(req.query.userId),
       });
+    if (req.query.postId)
+      pipeline.push({ _id: mongoose.Types.ObjectId(req.query.postId) });
     let filter = { $and: [...pipeline] };
     if (pipeline.length == 0) {
       filter = {};
@@ -210,8 +212,8 @@ router.get("/", async (req, res, next) => {
           ...filter,
         },
       },
-      { $skip: Number(req.query.skip) },
-      { $limit: Number(req.query.limit) },
+      { $skip: Number(req.query.skip) || 0 },
+      { $limit: Number(req.query.limit) || 1 },
       {
         $lookup: {
           from: "users",
