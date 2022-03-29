@@ -1,13 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useAlert } from "react-alert";
 import useBottom from "../../customHooks/useBottom";
 import useErrorHandler from "../../customHooks/useErrorHandler";
 import PostComponent from "./PostComponent";
 
 export default function HomePosts() {
   const [posts, setPosts] = useState([]);
-  const alert = useAlert();
   const [filter, setFilter] = useState({ limit: 4, skip: 0 });
   // const isBottom = useBottom();
   const errorHandler = useErrorHandler();
@@ -21,7 +19,7 @@ export default function HomePosts() {
       .then((res) => {
         // errorHandler("hello");
         if (res.data.length === 0)
-          alert.info("No posts are availbale right now");
+          errorHandler({ message: "No posts are available" });
         setPosts(res.data);
       })
       .catch((error) => {

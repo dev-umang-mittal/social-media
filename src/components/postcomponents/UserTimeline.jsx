@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import PostComponent from "./PostComponent";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 
 export default function UserTimeline() {
   const { user, isAuthenticated, setUser } = useContext(AuthContext);
@@ -12,7 +12,7 @@ export default function UserTimeline() {
   const [posts, setPosts] = useState();
   const [isEditable, setEditable] = useState(false);
   const bioRef = useRef();
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
   const inputFile = useRef(null);
   const [imgFile, setImgFile] = useState();
   const [filter, setFilter] = useState({
@@ -26,7 +26,8 @@ export default function UserTimeline() {
       .get(`${process.env.REACT_APP_TESTING_URL}/user/${filter.userId}`)
       .then((res) => {
         setUserDetails(res.data);
-      });
+      })
+      .catch((e) => {});
   }
 
   function getPosts() {
@@ -51,14 +52,10 @@ export default function UserTimeline() {
       )
       .then((res) => {
         setUserDetails(res.data);
-        alert.success("Update Successfully");
+        errorHandler({ code: 11 });
       })
       .catch((e) => {
-        try {
-          alert.error(e.message);
-        } catch {
-          alert.error(e.response.statusText);
-        }
+        errorHandler(e);
       });
   }
 

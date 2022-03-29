@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 
 export default function CreatePost() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function CreatePost() {
   const tag = useRef();
   const formData = new FormData();
   let file;
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
 
   function fileChanged(e) {
     // Assuming only image
@@ -28,7 +28,7 @@ export default function CreatePost() {
 
   function submitPost() {
     if (!title.current.value || !imgFile) {
-      alert.error("Please fill in the details to post");
+      errorHandler({ code: 6 });
       return;
     }
     formData.append("title", title.current.value);
@@ -43,12 +43,12 @@ export default function CreatePost() {
         },
       })
       .then((res) => {
-        alert.success("post created successfully");
+        errorHandler({ code: 11 });
         navigate(`/user/${user.response._id}`);
       })
       .catch((e) => {
         console.log(e);
-        alert.error(e.response.statusText);
+        errorHandler(e);
       });
   }
 

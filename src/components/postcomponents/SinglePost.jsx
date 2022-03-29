@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -10,7 +10,7 @@ export default function SinglePost() {
   const [post, setPost] = useState();
   const [comments, setComments] = useState([]);
   const comment = useRef();
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,8 +25,7 @@ export default function SinglePost() {
         getComments(res.data._id);
       })
       .catch((e) => {
-        console.log(e);
-        alert.error(e.response.statusText);
+        errorHandler(e);
       });
   }, [params]);
 
@@ -37,7 +36,7 @@ export default function SinglePost() {
         setComments(res.data);
       })
       .catch((e) => {
-        alert.error(JSON.stringify(e));
+        errorHandler(e);
       });
   }
 
@@ -58,11 +57,10 @@ export default function SinglePost() {
       )
       .then((res) => {
         getComments(post._id);
-        alert.success("Comment created successfully");
+        errorHandler({ code: 11 });
       })
       .catch((e) => {
-        console.dir(e);
-        alert.error(e.response.statusText);
+        errorHandler(e);
       });
   }
 
@@ -73,11 +71,11 @@ export default function SinglePost() {
         headers: { Authorization: `Bearer ${user.accessToken}` },
       })
       .then((res) => {
-        alert.success("Post Deleted Successfully");
+        errorHandler({ code: 11 });
         navigate("/");
       })
       .catch((e) => {
-        alert.error(e.response.statusText);
+        errorHandler(e);
       });
   }
 

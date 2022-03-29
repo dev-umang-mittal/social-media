@@ -1,19 +1,19 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { FacebookShareButton } from "react-share";
 
 export default function PostComponent(props) {
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
   const { user, isAuthenticated } = useContext(AuthContext);
   const [likeStatus, likeStatusChange] = useState(false);
   const [postDetails, setPostDetails] = useState(props.postDetails);
 
   function toggleLikeBlog() {
     if (!isAuthenticated) {
-      alert.error("You must be logged in to like a post");
+      errorHandler({ code: 2 });
       return;
     }
     if (likeStatus) {
@@ -29,7 +29,7 @@ export default function PostComponent(props) {
           setPostDetails(res.data);
         })
         .catch((e) => {
-          alert.error(e.response.statusText);
+          errorHandler(e);
         });
     } else {
       axios
@@ -42,7 +42,7 @@ export default function PostComponent(props) {
           setPostDetails(res.data);
         })
         .catch((e) => {
-          alert.error(e.response.statusText);
+          errorHandler(e);
         });
     }
   }

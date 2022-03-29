@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 import { useParams, useLocation } from "react-router-dom";
 import PostComponent from "./PostComponent";
 
 export default function CategoryPosts() {
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
   const [posts, setPosts] = useState([]);
   const params = useParams();
   const [filter, setFilter] = useState({
@@ -22,8 +22,8 @@ export default function CategoryPosts() {
       .then((res) => {
         setPosts(res.data);
       })
-      .catch((e) => {
-        alert.error(JSON.stringify(e));
+      .catch((error) => {
+        errorHandler(error);
       });
   }, [filter]);
 

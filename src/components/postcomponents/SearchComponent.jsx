@@ -1,13 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 import { useParams } from "react-router-dom";
 import PostComponent from "./PostComponent";
 
 export default function SearchComponent() {
   const params = useParams();
   const [posts, setPosts] = useState([]);
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
   const [pageNo, setPageNo] = useState(0);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function SearchComponent() {
         setPosts(res.data);
       })
       .catch((e) => {
-        alert.error(e.response.statusText);
+        errorHandler(e);
       });
   }, [params, pageNo]);
 
