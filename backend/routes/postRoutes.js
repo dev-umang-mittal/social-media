@@ -191,6 +191,44 @@ router.delete("/delete/:id", authorizeUser, async (req, res, next) => {
   }
 });
 
+router.get("/", async (req, res, next) => {
+  try {
+    const pipeline = [];
+    if (req.query.tag) pipeline.push({ tags: req.query.tag });
+    if (req.query.userId)
+      pipeline.push({
+        authorDetails: mongoose.Types.ObjectId(req.query.userId),
+      });
+    let filter = { $and: [...pipeline] };
+    if (pipeline.length == 0) {
+      filter = {};
+    }
+
+    const response = await posts.aggregate([
+      {
+        $match: {
+          ...filter,
+        },
+      },
+      { $skip: Number(req.query.skip) },
+      { $limit: Number(req.query.limit) },
+      {
+        $lookup: {
+          from: "users",
+          localField: "authorDetails",
+          foreignField: "_id",
+          as: "authorDetails",
+        },
+      },
+      { $unwind: "$authorDetails" },
+    ]);
+
+    res.send(response);
+  } catch (e) {
+    next(e);
+  }
+});
+
 // Get a post details
 router.get("/:id", async (req, res, next) => {
   try {
