@@ -1,21 +1,21 @@
 import axios from "axios";
 import md5 from "md5";
 import React, { useEffect, useRef, useState } from "react";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword() {
   const password = useRef();
   const otp = useRef();
   const confirmPass = useRef();
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
   const navigate = useNavigate();
   const [token, setToken] = useState(sessionStorage.getItem("token"));
 
   useEffect(() => {
     setToken(sessionStorage.getItem("token"));
     if (!token) {
-      alert.error("Link Expired");
+      errorHandler({ code: 3 });
       navigate("/");
     }
   }, []);
@@ -25,7 +25,7 @@ export default function ResetPassword() {
       confirmPass.current.value !== password.current.value ||
       password.current.value === ""
     ) {
-      alert.error("password don't match");
+      errorHandler({ code: 4 });
       return;
     }
     axios
@@ -36,12 +36,12 @@ export default function ResetPassword() {
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
-          alert.success("password changed successfully");
+          errorHandler({ code: 11 });
           navigate("/login");
         }
       })
       .catch((e) => {
-        alert.error(e.response.statusText);
+        errorHandler(e);
         navigate("/");
       });
   };

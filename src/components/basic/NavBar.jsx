@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useContext, useEffect, useRef } from "react";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 import { Link, useNavigate, NavLink, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function NavBar() {
   const { user, setUser, setAuthenticationStatus } = useContext(AuthContext);
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
   const navigate = useNavigate();
   const searchTerm = useRef();
   const location = useLocation();
@@ -26,7 +26,7 @@ export default function NavBar() {
         localStorage.setItem("token", res.data.accessToken);
       })
       .catch((err) => {
-        alert.error("An Error Occured. Please login Again.");
+        errorHandler({ code: 5 });
         localStorage.clear();
       });
   }, []);

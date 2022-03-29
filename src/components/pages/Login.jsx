@@ -1,7 +1,7 @@
 import axios from "axios";
 import md5 from "md5";
 import React, { useContext, useEffect, useRef } from "react";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -14,7 +14,7 @@ export default function Login() {
   } = useContext(AuthContext);
   const email = useRef(email);
   const password = useRef(password);
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Login() {
       .then((res) => {
         console.log(res);
         if (!res.data.response) {
-          alert.error("Account Not found. Try again");
+          errorHandler({ code: 1 });
           return;
         }
         localStorage.setItem("token", res.data.accessToken);
@@ -41,7 +41,7 @@ export default function Login() {
         setUser(res.data);
       })
       .catch((error) => {
-        alert.error(error.response.data.message);
+        errorHandler(error);
       });
   }
 

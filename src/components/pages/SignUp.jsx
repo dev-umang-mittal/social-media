@@ -2,7 +2,7 @@ import React, { useRef, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAlert } from "react-alert";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 import md5 from "md5";
 
 export default function SignUp() {
@@ -17,7 +17,7 @@ export default function SignUp() {
   const email = useRef();
   const password = useRef();
   const navigate = useNavigate();
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -42,7 +42,7 @@ export default function SignUp() {
       .catch((error) => {
         console.log(error.response.data.messages);
         error.response.data.messages.forEach((msg) => {
-          alert.error(msg);
+          errorHandler({ message: msg });
         });
       });
   }

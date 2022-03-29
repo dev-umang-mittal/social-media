@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
-import { useAlert } from "react-alert";
 import { useNavigate } from "react-router-dom";
+import useErrorHandler from "../../customHooks/useErrorHandler";
 
 export default function Forgot() {
   const email = useRef();
   const navigate = useNavigate();
-  const alert = useAlert();
+  const errorHandler = useErrorHandler();
 
   const sendEmail = () => {
     axios
@@ -16,10 +16,20 @@ export default function Forgot() {
       .then((res) => {
         if (res.data) {
           sessionStorage.setItem("token", res.data.token);
-          alert.success("Otp is sent on registered email id");
+          errorHandler({
+            custom: {
+              type: "success",
+              message: "OTP is sent on registered email",
+            },
+          });
           navigate("/reset");
         } else {
-          alert.error("Email is not found");
+          errorHandler({
+            custom: {
+              type: "error",
+              message: "Email is not linked ot any account",
+            },
+          });
         }
       });
   };
