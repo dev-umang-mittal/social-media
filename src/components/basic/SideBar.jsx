@@ -47,7 +47,7 @@ export default function SideBar() {
             {tags.map((tag) => {
               return (
                 <li key={tag._id.tags}>
-                  <Link to={`/category/${tag._id.tags}?page=0`}>
+                  <Link to={`/category/${tag._id.tags}`}>
                     <span className="list_icon">
                       <img
                         src={tag.image}

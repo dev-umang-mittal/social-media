@@ -27,6 +27,7 @@ export default function NavBar() {
       })
       .catch((err) => {
         alert.error("An Error Occured. Please login Again.");
+        localStorage.clear();
       });
   }, []);
 
