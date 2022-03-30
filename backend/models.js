@@ -8,14 +8,6 @@ const userSchema = mongoose.Schema({
     maxLength: [15, "Name is too long."],
     trim: true,
   },
-  username: {
-    type: String,
-    requied: [true, "Username is required."],
-    unique: true,
-    trim: true,
-    minLength: [4, "Username is too short."],
-    maxLength: [12, "Username is too long."],
-  },
   email: {
     type: String,
     required: [true, "Email is required."],
@@ -93,7 +85,7 @@ const postSchema = mongoose.Schema(
 );
 
 postSchema.index({ title: "text", tags: "text" });
-userSchema.index({ username: "text", name: "text" });
+userSchema.index({ name: "text" });
 
 const users = mongoose.model("users", userSchema);
 const posts = mongoose.model("posts", postSchema);
