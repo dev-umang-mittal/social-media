@@ -133,12 +133,6 @@ export default function UserTimeline() {
                 <div className="profile_form">
                   <ul>
                     <li>
-                      <div className="div_name1">Username :</div>
-                      <div className="div_name2">
-                        {userDetails && userDetails.username}
-                      </div>
-                    </li>
-                    <li>
                       <div className="div_name1">Name :</div>
                       <div className="div_name2">
                         {userDetails && userDetails.name}
