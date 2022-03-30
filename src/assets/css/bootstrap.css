@@ -2907,6 +2907,7 @@ table th[class*="span"],
   background-color: #f3f3f3;
   font-size: 12px;
   font-style: italic;
+  color: #000;
 }
 .dropdown-menu > li:last-child > a:hover {
   background: 0px;
@@ -7240,7 +7241,7 @@ a.badge:focus {
   padding: 0px;
   text-indent: 6px;
   font-style: italic;
-  color: #e0dbdb;
+  color: #000;
   font-size: 12px;
   border: 1px solid #e0dbdb;
 }
@@ -7409,7 +7410,7 @@ a.badge:focus {
   padding: 0px;
   text-indent: 6px;
   font-style: italic;
-  color: #a0a0a0;
+  color: #000;
   font-size: 12px;
   border: 1px solid #e0dbdb;
 }

@@ -9,7 +9,7 @@ export default function UserTimeline() {
   const { user, isAuthenticated, setUser } = useContext(AuthContext);
   const [userDetails, setUserDetails] = useState();
   const params = useParams();
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState([]);
   const [isEditable, setEditable] = useState(false);
   const bioRef = useRef();
   const errorHandler = useErrorHandler();
@@ -185,16 +185,12 @@ export default function UserTimeline() {
             </div>
           </div>
         </div>
-        {posts && posts.length === 0 && "Your Posts will be visible here."}
-        {posts &&
-          posts.map((post) => {
-            return (
-              <PostComponent
-                key={post.title}
-                postDetails={post}
-              ></PostComponent>
-            );
-          })}
+        {posts.length === 0 && "Your Posts will be visible here."}
+        {posts.map((post) => {
+          return (
+            <PostComponent key={post.title} postDetails={post}></PostComponent>
+          );
+        })}
       </div>
       <div className="clear" />
       <div>
