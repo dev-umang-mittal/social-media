@@ -76,7 +76,10 @@ const postSchema = mongoose.Schema(
     image: {
       type: String,
     },
-    tags: String,
+    tags: {
+      type: String,
+      lowercase: true,
+    },
     likes: {
       type: Number,
       default: 0,
