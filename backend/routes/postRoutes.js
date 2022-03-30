@@ -223,6 +223,7 @@ router.get("/", async (req, res, next) => {
         },
       },
       { $unwind: "$authorDetails" },
+      { $sort: { createdAt: -1 } },
     ]);
     res.send(response);
   } catch (e) {
