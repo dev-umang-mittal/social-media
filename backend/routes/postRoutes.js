@@ -42,7 +42,7 @@ router.get("/timeline", async (req, res, next) => {
             localField: "authorDetails",
             foreignField: "_id",
             as: "authorDetails",
-            pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
+            pipeline: [{ $project: { name: 1, image: 1 } }],
           },
         },
         { $unwind: "$authorDetails" },
@@ -65,7 +65,7 @@ router.get("/category/:tag", async (req, res, next) => {
           localField: "authorDetails",
           foreignField: "_id",
           as: "authorDetails",
-          pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
+          pipeline: [{ $project: { name: 1, image: 1 } }],
         },
       },
       { $unwind: "$authorDetails" },
@@ -95,7 +95,7 @@ router.get("/all/:userId", async (req, res, next) => {
             localField: "authorDetails",
             foreignField: "_id",
             as: "authorDetails",
-            pipeline: [{ $project: { name: 1, username: 1, image: 1 } }],
+            pipeline: [{ $project: { name: 1, image: 1 } }],
           },
         },
         { $unwind: "$authorDetails" },
@@ -140,7 +140,7 @@ router.get("/like/:id", authorizeUser, async (req, res, next) => {
         { $inc: { likes: 1 } },
         { new: true }
       )
-      .populate("authorDetails", "name image username")
+      .populate("authorDetails", "name image")
       .exec();
     res.status(200).json(response);
   } catch (e) {
