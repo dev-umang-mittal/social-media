@@ -15,14 +15,14 @@ export default function SinglePost() {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_TESTING_URL}/post/${params.id}`)
+      .get(`${process.env.REACT_APP_TESTING_URL}/post?postId=${params.id}`)
       .then((res) => {
         if (!res.data) {
           navigate("/");
         }
-        res.data.createdAt = new Date(res.data.createdAt);
-        setPost(res.data);
-        getComments(res.data._id);
+        res.data[0].createdAt = new Date(res.data[0].createdAt);
+        setPost(res.data[0]);
+        getComments(res.data[0]._id);
       })
       .catch((e) => {
         errorHandler(e);

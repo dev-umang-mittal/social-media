@@ -24,7 +24,6 @@ export default function PostComponent(props) {
           { headers: { Authorization: `Bearer ${user.accessToken}` } }
         )
         .then((res) => {
-          console.log("response", res.data);
           likeStatusChange(!likeStatus);
           setPostDetails(res.data);
         })
