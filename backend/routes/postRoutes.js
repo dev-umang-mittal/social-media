@@ -212,6 +212,7 @@ router.get("/", async (req, res, next) => {
           ...filter,
         },
       },
+      { $sort: { createdAt: -1 } },
       { $skip: Number(req.query.skip) || 0 },
       { $limit: Number(req.query.limit) || 1 },
       {
@@ -223,7 +224,6 @@ router.get("/", async (req, res, next) => {
         },
       },
       { $unwind: "$authorDetails" },
-      { $sort: { createdAt: -1 } },
     ]);
     res.send(response);
   } catch (e) {

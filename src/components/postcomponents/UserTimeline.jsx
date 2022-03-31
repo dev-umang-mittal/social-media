@@ -139,6 +139,12 @@ export default function UserTimeline() {
                       </div>
                     </li>
                     <li>
+                      <div className="div_name1">Email :</div>
+                      <div className="div_name2">
+                        {userDetails && userDetails.email}
+                      </div>
+                    </li>
+                    <li>
                       <div className="div_name1">Description :</div>
                       <div className="div_name3">
                         {userDetails && !isEditable && userDetails.bio}

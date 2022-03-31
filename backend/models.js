@@ -86,6 +86,7 @@ const postSchema = mongoose.Schema(
 
 postSchema.index({ title: "text", tags: "text" });
 userSchema.index({ name: "text" });
+// postSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 }); //Whenever you want to delete document automatically
 
 const users = mongoose.model("users", userSchema);
 const posts = mongoose.model("posts", postSchema);
