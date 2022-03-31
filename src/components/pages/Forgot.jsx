@@ -24,12 +24,7 @@ export default function Forgot() {
           });
           navigate("/reset");
         } else {
-          errorHandler({
-            custom: {
-              type: "error",
-              message: "Email is not linked ot any account",
-            },
-          });
+          errorHandler({ code: 1 });
         }
       });
   };

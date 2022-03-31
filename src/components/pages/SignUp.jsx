@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useErrorHandler from "../../customHooks/useErrorHandler";
 import md5 from "md5";
+import { GoogleLogin } from "react-google-login";
 
 export default function SignUp() {
   const {
@@ -13,11 +14,35 @@ export default function SignUp() {
     setAuthenticationStatus,
   } = useContext(AuthContext);
   const name = useRef();
-  const username = useRef();
   const email = useRef();
   const password = useRef();
   const navigate = useNavigate();
   const errorHandler = useErrorHandler();
+
+  const responseGoogle = (resp) => {
+    console.log(resp);
+    axios
+      .post(`${process.env.REACT_APP_TESTING_URL}/user/login`, {
+        gauth: true,
+        token: resp.tokenId,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.accessToken);
+        setAuthenticationStatus(true);
+        setUser(res.data);
+      })
+      .catch((error) => {
+        console.log(error.response.data.messages);
+        error.response.data.messages.forEach((msg) => {
+          errorHandler({ message: msg });
+        });
+      });
+  };
+
+  const errorGoogle = (err) => {
+    console.log(err);
+    errorHandler({ code: 12 });
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -29,7 +54,6 @@ export default function SignUp() {
   function handleSubmit() {
     axios
       .post(`${process.env.REACT_APP_TESTING_URL}/user/create`, {
-        username: username.current.value,
         name: name.current.value,
         password: md5(password.current.value),
         email: email.current.value,
@@ -56,14 +80,6 @@ export default function SignUp() {
               <div className="register_sec">
                 <h1>Create An Account</h1>
                 <ul>
-                  <li>
-                    <span>Username</span>
-                    <input
-                      type="text"
-                      placeholder="Enter your username"
-                      ref={username}
-                    />
-                  </li>
                   <li>
                     <span>Email</span>
                     <input
@@ -99,6 +115,13 @@ export default function SignUp() {
                     />
                   </li>
                 </ul>
+                <GoogleLogin
+                  clientId="449291285820-q3m2575vj89s9u3ll93bqqgt3je4oo4n.apps.googleusercontent.com"
+                  buttonText="Login"
+                  onSuccess={responseGoogle}
+                  onFailure={errorGoogle}
+                  cookiePolicy={"single_host_origin"}
+                />
                 <div className="addtnal_acnt">
                   I already have an account.
                   <Link to={"/login"}>Login My Account !</Link>

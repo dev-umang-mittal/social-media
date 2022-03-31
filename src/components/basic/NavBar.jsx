@@ -151,7 +151,11 @@ export default function NavBar() {
                   />
                 )}
               </div>
-              {user && <div className="info_div1">{user.response.name}</div>}
+              {user && (
+                <div className="info_div1" style={{ marginTop: 0 }}>
+                  {user.response.name}
+                </div>
+              )}
             </Link>
           </div>
         </div>

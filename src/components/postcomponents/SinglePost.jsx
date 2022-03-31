@@ -199,9 +199,6 @@ export default function SinglePost() {
               );
             })}
           </ul>
-          <div className="view_div">
-            <a href="#">View more</a>
-          </div>
         </div>
       </div>
     </>

@@ -4,14 +4,12 @@ import React, { useContext, useEffect, useRef } from "react";
 import useErrorHandler from "../../customHooks/useErrorHandler";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { GoogleLogin } from "react-google-login";
 
 export default function Login() {
-  const {
-    user,
-    setUser,
-    isAuthenticated,
-    setAuthenticationStatus,
-  } = useContext(AuthContext);
+  const { setUser, isAuthenticated, setAuthenticationStatus } = useContext(
+    AuthContext
+  );
   const email = useRef(email);
   const password = useRef(password);
   const errorHandler = useErrorHandler();
@@ -24,6 +22,28 @@ export default function Login() {
     }
   }, [isAuthenticated]);
 
+  const responseGoogle = (resp) => {
+    console.log(resp);
+    axios
+      .post(`${process.env.REACT_APP_TESTING_URL}/user/login`, {
+        gauth: true,
+        token: resp.tokenId,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.accessToken);
+        setAuthenticationStatus(true);
+        setUser(res.data);
+      })
+      .catch((error) => {
+        errorHandler(error);
+      });
+  };
+
+  const errorGoogle = (err) => {
+    console.log(err);
+    errorHandler({ code: 12 });
+  };
+
   function login(email, password) {
     axios
       .post(`${process.env.REACT_APP_TESTING_URL}/user/login`, {
@@ -31,7 +51,6 @@ export default function Login() {
         password: md5(password),
       })
       .then((res) => {
-        console.log(res);
         if (!res.data.response) {
           errorHandler({ code: 1 });
           return;
@@ -85,6 +104,14 @@ export default function Login() {
                     <Link to={"/forgot"}>Forgot Password</Link>
                   </li>
                 </ul>
+                <GoogleLogin
+                  clientId="449291285820-q3m2575vj89s9u3ll93bqqgt3je4oo4n.apps.googleusercontent.com"
+                  buttonText="Login"
+                  onSuccess={responseGoogle}
+                  onFailure={errorGoogle}
+                  cookiePolicy={"single_host_origin"}
+                />
+
                 <div className="addtnal_acnt">
                   I do not have any account yet.
                   <Link to={"/signup"}>Create My Account Now !</Link>

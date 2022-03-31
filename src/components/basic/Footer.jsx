@@ -8,7 +8,7 @@ export default function Footer() {
           Copyright © Pet-Socail 2014 All Rights Reserved
         </div>
         <div className="footer_div2">
-          <a>Privacy Policy </a>| <a> Terms & Conditions</a>
+          <p>Privacy Policy </p>| <p> Terms & Conditions</p>
         </div>
       </div>
       <div className="footr_rgt">
