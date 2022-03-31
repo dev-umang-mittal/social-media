@@ -1,11 +1,57 @@
-import { posts, users } from "../models.js";
+import { users } from "../models.js";
 import express from "express";
 import jwt from "jsonwebtoken";
 import { authorizeUser } from "../server.js";
 import { Auth } from "two-step-auth";
-import md5 from "md5";
 import upload from "../imageUploader.js";
+import { OAuth2Client } from "google-auth-library";
+import md5 from "md5";
 const router = express.Router();
+
+const client = new OAuth2Client(process.env.GOOGLE_AUTHENTICATION);
+
+async function verify(token, res) {
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_AUTHENTICATION,
+    });
+    const payload = ticket.getPayload();
+    return payload;
+  } catch (e) {
+    res.sendStatus(403);
+    return null;
+  }
+}
+
+const isGoogleAuth = async (req, res, next) => {
+  if (!req.body.gauth) {
+    next();
+    return;
+  }
+  const payload = await verify(req.body.token, res);
+  if (!payload) return;
+  req.body.email = payload.email;
+  req.body.name = payload.name;
+  req.body.password = md5(payload.sub);
+  next();
+};
+
+const signupUser = async (name, email, password) => {
+  const user = new users({
+    name,
+    email,
+    password,
+  });
+  user.image = `https://avatars.dicebear.com/api/adventurer-neutral/${user._id}.svg`;
+  const response = await user.save();
+  return response;
+};
+
+router.post("/test", isGoogleAuth, (req, res) => {
+  console.log(req.body);
+  res.sendStatus(200);
+});
 
 // Get a user details
 router.get("/:id", async (req, res, next) => {
@@ -18,16 +64,13 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Signup a user
-router.post("/create", async (req, res, next) => {
-  const user = new users({
-    name: req.body.name,
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-  });
-  user.image = `https://avatars.dicebear.com/api/adventurer-neutral/${user._id}.svg`;
+router.post("/create", isGoogleAuth, async (req, res, next) => {
   try {
-    const response = await user.save();
+    const response = await signupUser(
+      req.body.name,
+      req.body.email,
+      req.body.password
+    );
     const accessToken = jwt.sign(
       { sub: response._id },
       process.env.JWT_SECRET,
@@ -40,15 +83,23 @@ router.post("/create", async (req, res, next) => {
 });
 
 // Login a user
-router.post("/login", async (req, res, next) => {
+router.post("/login", isGoogleAuth, async (req, res, next) => {
   try {
-    const response = await users.findOne({
+    let response = await users.findOne({
       email: req.body.email,
       password: req.body.password,
     });
     if (!response) {
-      res.json({ response });
-      return;
+      if (req.body.gauth) {
+        response = await signupUser(
+          req.body.name,
+          req.body.email,
+          req.body.password
+        );
+      } else {
+        res.json({ response });
+        return;
+      }
     }
     const accessToken = jwt.sign(
       { sub: response._id },
@@ -106,7 +157,7 @@ router.get("/forgot/:email", async (req, res, next) => {
     const responseM = await users.findOne({ email: req.params.email });
     if (responseM) {
       const response = await Auth(req.params.email, "PetSocial PPL");
-      console.log(response.OTP);
+      console.log(response);
       const token = jwt.sign(
         { sub: response.OTP, email: req.params.email },
         process.env.PASSWORD_SECRET,
